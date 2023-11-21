@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PlayerMovementData" load_steps=2 format=3 uid="uid://cm8dgvmkccnmr"]
+
+[ext_resource type="Script" path="res://Player/Resources/PlayerMovementData/PlayerMovementData.cs" id="1_7k34i"]
+
+[resource]
+script = ExtResource("1_7k34i")
+Speed = 40.0
+Acceleration = 300.0
+AirAcceleration = 200.0
+Friction = 400.0
+AirResistance = 100.0
+JumpVelocity = -100.0
+LowJumpMultiplier = 0.05
+GravityScale = 0.5
+AdditionalJumps = 1
+AdditionalJumpsVelocityMultiplier = 0.8
