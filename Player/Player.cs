@@ -17,7 +17,6 @@ public partial class Player : CharacterBody2D
 
 	public override void _Ready()
 	{
-		//_animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		_playerSprite = GetNode<Node2D>("PlayerSprite");
 		_coyoteJumpTimer = GetNode<Timer>("CoyoteJumpTimer");
 		_additionalJumpsCount = MovementData.AdditionalJumps;
@@ -34,31 +33,7 @@ public partial class Player : CharacterBody2D
 		HandleJump(delta);
 		UpdateAnimations(input);
 		var wasOnfloor = IsOnFloor();
-		if (IsOnWallOnly())
-		{
-			if (Input.IsActionPressed("hang"))
-			{
-				Velocity = Velocity with { Y = 0 };
-				_isStuckOnWall = true;
-			}
-			else if (_isStuckOnWall)
-			{
-				var wallSlideAcceleration = 5;
-				Velocity = Velocity with { Y = wallSlideAcceleration };
-			}
-			if (Input.IsActionJustPressed("jump") && _isStuckOnWall)
-			{
-				_isStuckOnWall = false;
-				var wallJumpYPower = -80;
-				var wallJumpXPower = 80;
-				Velocity = Velocity with { Y = wallJumpYPower };
-				Velocity = Velocity with { X = GetWallNormal().X * wallJumpXPower };
-			}
-		}
-		if (IsOnFloor())
-		{
-			_isStuckOnWall = false;
-		}
+		HandleWallJump();
 		MoveAndSlide();
 		AlignCharToSlope();
 		HandleCoyoteTimer(wasOnfloor);
@@ -98,6 +73,35 @@ public partial class Player : CharacterBody2D
 			{
 				_isAirJump = false;
 			}
+		}
+	}
+
+	private void HandleWallJump()
+	{
+		if (IsOnWallOnly())
+		{
+			if (Input.IsActionPressed("hang"))
+			{
+				Velocity = Velocity with { Y = 0 };
+				_isStuckOnWall = true;
+			}
+			else if (_isStuckOnWall) // isOnWall but hang not pressed => wallSlide
+			{
+				Velocity = Velocity with { Y = MovementData.WallSlideAcceleration };
+			}
+
+			if (Input.IsActionJustPressed("jump") && _isStuckOnWall)
+			{
+				_isStuckOnWall = false;
+				var wallJumpYPower = -80;
+				var wallJumpXPower = 80;
+				Velocity = Velocity with { Y = wallJumpYPower };
+				Velocity = Velocity with { X = GetWallNormal().X * wallJumpXPower };
+			}
+		}
+		if (IsOnFloor())
+		{
+			_isStuckOnWall = false;
 		}
 	}
 
@@ -142,11 +146,9 @@ public partial class Player : CharacterBody2D
 			_legsAnimation.Play("RunForward");
 		}
 		else
-			_legsAnimation.Play("RunForward");
-		//_animatedSprite2D.Play("Idle");
+			_legsAnimation.Play("Idle");
 		if (!IsOnFloor())
-			_legsAnimation.Play("RunForward");
-		//_animatedSprite2D.Play("Jump");
+			_legsAnimation.Play("Jump");
 	}
 
 	private void HandleCoyoteTimer(bool wasPlayerOnTheFloor)

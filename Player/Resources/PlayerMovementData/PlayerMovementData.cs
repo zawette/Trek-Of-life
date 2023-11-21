@@ -24,4 +24,10 @@ public partial class PlayerMovementData : Resource
     public byte AdditionalJumps { get; set; } = 1;
     [Export]
     public float AdditionalJumpsVelocityMultiplier { get; set; } = 0.8f;
+    [Export]
+    public float WallSlideAcceleration  { get; set; } = 5;
+    [Export]
+    public float WallJumpYPower   { get; set; } = -80;
+    [Export]
+    public float WallJumpXPower   { get; set; } = 80;
 }
