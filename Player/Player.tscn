@@ -445,6 +445,8 @@ libraries = {
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(1, -21)
 zoom = Vector2(3, 3)
+position_smoothing_enabled = true
+position_smoothing_speed = 3.0
 
 [node name="CoyoteJumpTimer" type="Timer" parent="."]
 wait_time = 0.08
