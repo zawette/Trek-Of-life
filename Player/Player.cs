@@ -6,9 +6,11 @@ public partial class Player : CharacterBody2D
 	[Export]
 	public PlayerMovementData MovementData;
 	private float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
-	//private AnimatedSprite2D _animatedSprite2D;
 	private AnimationPlayer _legsAnimation;
-	private AnimatedSprite2D _front_Arm;
+	private AnimatedSprite2D _legsSprite;
+	private AnimatedSprite2D _bodySprite;
+	private AnimatedSprite2D _frontArmSprite;
+	private AnimatedSprite2D _headSprite;
 	private CharacterBody2D _characterBody2D;
 	private Node2D _playerSprite;
 	private Timer _coyoteJumpTimer;
@@ -22,7 +24,10 @@ public partial class Player : CharacterBody2D
 		_coyoteJumpTimer = GetNode<Timer>("CoyoteJumpTimer");
 		_additionalJumpsCount = MovementData.AdditionalJumps;
 		_legsAnimation = GetNode<AnimationPlayer>("LegsAnimation");
-		_front_Arm = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Front_Arm");
+		_frontArmSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Front_Arm");
+		_legsSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Legs");
+		_bodySprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body");
+		_headSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Head");
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -46,7 +51,14 @@ public partial class Player : CharacterBody2D
 	private void HandleAim()
 	{
 		var mousePosition = (GetGlobalMousePosition() - GlobalPosition).Normalized();
-		_front_Arm.Rotation = Mathf.Clamp(mousePosition.Angle(), -1.5f, 1.5f);
+		var shouldFlip = mousePosition.X < 0;
+
+		_frontArmSprite.Rotation = mousePosition.Angle();
+		
+		_frontArmSprite.FlipV = shouldFlip;
+		_bodySprite.FlipH = shouldFlip;
+		_headSprite.FlipH = shouldFlip;
+		
 		//GD.Print(mousePosition);
 		//GD.Print(mousePosition.Angle());
 	}
@@ -153,7 +165,7 @@ public partial class Player : CharacterBody2D
 		if (input.X != 0)
 		{
 			//_animatedSprite2D.Play("Run");
-			//_animatedSprite2D.FlipH = input.X < 0;
+			_legsSprite.FlipH = input.X < 0;
 			_legsAnimation.Play("RunForward");
 		}
 		else
