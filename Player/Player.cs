@@ -8,8 +8,8 @@ public partial class Player : CharacterBody2D
 	private float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 	//private AnimatedSprite2D _animatedSprite2D;
 	private AnimationPlayer _legsAnimation;
-    private AnimatedSprite2D _front_Arm;
-    private CharacterBody2D _characterBody2D;
+	private AnimatedSprite2D _front_Arm;
+	private CharacterBody2D _characterBody2D;
 	private Node2D _playerSprite;
 	private Timer _coyoteJumpTimer;
 	private byte _additionalJumpsCount;
@@ -43,9 +43,12 @@ public partial class Player : CharacterBody2D
 
 	}
 
-	private void HandleAim(){
+	private void HandleAim()
+	{
 		var mousePosition = (GetGlobalMousePosition() - GlobalPosition).Normalized();
-		_front_Arm.Rotation = mousePosition.Angle() ;
+		_front_Arm.Rotation = Mathf.Clamp(mousePosition.Angle(), -1.5f, 1.5f);
+		//GD.Print(mousePosition);
+		//GD.Print(mousePosition.Angle());
 	}
 
 	private void AddGravity(double delta)
