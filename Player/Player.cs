@@ -8,7 +8,8 @@ public partial class Player : CharacterBody2D
 	private float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 	//private AnimatedSprite2D _animatedSprite2D;
 	private AnimationPlayer _legsAnimation;
-	private CharacterBody2D _characterBody2D;
+    private AnimatedSprite2D _front_Arm;
+    private CharacterBody2D _characterBody2D;
 	private Node2D _playerSprite;
 	private Timer _coyoteJumpTimer;
 	private byte _additionalJumpsCount;
@@ -21,12 +22,14 @@ public partial class Player : CharacterBody2D
 		_coyoteJumpTimer = GetNode<Timer>("CoyoteJumpTimer");
 		_additionalJumpsCount = MovementData.AdditionalJumps;
 		_legsAnimation = GetNode<AnimationPlayer>("LegsAnimation");
+		_front_Arm = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Front_Arm");
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 input = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 		AddGravity(delta);
+		HandleAim();
 		HandleXMovements(delta, input);
 		ApplyFriction(delta, input);
 		ApplyAirResistance(delta, input);
@@ -38,6 +41,11 @@ public partial class Player : CharacterBody2D
 		AlignCharToSlope();
 		HandleCoyoteTimer(wasOnfloor);
 
+	}
+
+	private void HandleAim(){
+		var mousePosition = (GetGlobalMousePosition() - GlobalPosition).Normalized();
+		_front_Arm.Rotation = mousePosition.Angle() ;
 	}
 
 	private void AddGravity(double delta)
