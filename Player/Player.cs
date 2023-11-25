@@ -10,6 +10,7 @@ public partial class Player : CharacterBody2D
 	private AnimatedSprite2D _legsSprite;
 	private AnimatedSprite2D _bodySprite;
 	private AnimatedSprite2D _frontArmSprite;
+	private Marker2D _hand;
 	private AnimatedSprite2D _headSprite;
 	private CharacterBody2D _characterBody2D;
 	private Node2D _playerSprite;
@@ -25,6 +26,7 @@ public partial class Player : CharacterBody2D
 		_additionalJumpsCount = MovementData.AdditionalJumps;
 		_legsAnimation = GetNode<AnimationPlayer>("LegsAnimation");
 		_frontArmSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Front_Arm");
+		_hand = GetNode<Marker2D>("PlayerSprite/Body/Front_Arm/Hand");
 		_legsSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Legs");
 		_bodySprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body");
 		_headSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Head");
@@ -50,15 +52,15 @@ public partial class Player : CharacterBody2D
 
 	private void HandleAim()
 	{
-		var mousePosition = (GetGlobalMousePosition() - GlobalPosition).Normalized();
+		var mousePosition = (GetGlobalMousePosition() - _hand.GlobalPosition).Normalized();
 		var shouldFlip = mousePosition.X < 0;
 
 		_frontArmSprite.Rotation = mousePosition.Angle();
-		
+
 		_frontArmSprite.FlipV = shouldFlip;
 		_bodySprite.FlipH = shouldFlip;
 		_headSprite.FlipH = shouldFlip;
-		
+
 		//GD.Print(mousePosition);
 		//GD.Print(mousePosition.Angle());
 	}
