@@ -26,7 +26,7 @@ public partial class State : Node
 		EmitSignal(nameof(StateExit));
 	}
 
-	public virtual void SwitchState(string stateName, Godot.Collections.Dictionary<string,Variant> message = null)
+	public void EmitSwitchState(string stateName, Godot.Collections.Dictionary<string,Variant> message = null)
 	{
 		EmitSignal(nameof(SwitchState), stateName, message);
 	}
