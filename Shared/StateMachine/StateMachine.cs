@@ -7,9 +7,9 @@ public partial class StateMachine : Node
 {
 	[Export]
 	public State InitialState;
-	private State CurrentState;
-	private string PreviousStateName;
-	private Dictionary<string, State> States;
+	public State CurrentState;
+	public string PreviousStateName;
+	public Dictionary<string, State> States;
 
 
 	public override void _Ready()
