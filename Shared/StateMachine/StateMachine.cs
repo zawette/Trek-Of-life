@@ -9,7 +9,7 @@ public partial class StateMachine : Node
 	public State InitialState;
 	public State CurrentState;
 	public string PreviousStateName;
-	public Dictionary<string, State> States;
+	public Dictionary<string, State> States = new();
 
 
 	public override void _Ready()
@@ -20,7 +20,7 @@ public partial class StateMachine : Node
 		foreach (var state in GetChildren().OfType<State>())
 		{
 			var stateName = state.GetType().Name;
-            state.SwitchState += OnSwitchState;
+			state.SwitchState += OnSwitchState;
 			States.Add(stateName, state);
 			GD.Print(stateName);
 		}
