@@ -5,6 +5,9 @@ public partial class Player : CharacterBody2D
 {
 	[Export]
 	public PlayerMovementData MovementData;
+	public Vector2 InputDir = Vector2.Zero;
+	public Timer CoyoteJumpTimer;
+
 	private float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 	private AnimationPlayer _legsAnimation;
 	private AnimatedSprite2D _legsSprite;
@@ -14,15 +17,13 @@ public partial class Player : CharacterBody2D
 	private AnimatedSprite2D _headSprite;
 	private CharacterBody2D _characterBody2D;
 	private Node2D _playerSprite;
-	private Timer _coyoteJumpTimer;
 	private byte _additionalJumpsCount;
 	private bool _isAirJump;
-	private bool _isStuckOnWall;
 
 	public override void _Ready()
 	{
 		_playerSprite = GetNode<Node2D>("PlayerSprite");
-		_coyoteJumpTimer = GetNode<Timer>("CoyoteJumpTimer");
+		CoyoteJumpTimer = GetNode<Timer>("CoyoteJumpTimer");
 		_additionalJumpsCount = MovementData.AdditionalJumps;
 		_legsAnimation = GetNode<AnimationPlayer>("LegsAnimation");
 		_frontArmSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Front_Arm");
@@ -34,16 +35,16 @@ public partial class Player : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector2 input = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+		InputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 		AddGravity(delta);
 		HandleAim();
-		HandleXMovements(delta, input);
-		ApplyFriction(delta, input);
-		ApplyAirResistance(delta, input);
-		HandleJump(delta);
-		UpdateAnimations(input);
+		//HandleXMovements(delta, inputDir);
+		//ApplyFriction(delta, InputDir);
+		//ApplyAirResistance(delta, InputDir);
+		//HandleJump(delta);
+		UpdateAnimations(InputDir);
 		var wasOnfloor = IsOnFloor();
-		HandleWallJump();
+		//HandleWallJump();
 		MoveAndSlide();
 		AlignCharToSlope();
 		HandleCoyoteTimer(wasOnfloor);
@@ -72,7 +73,7 @@ public partial class Player : CharacterBody2D
 	}
 	private void HandleJump(double delta)
 	{
-		if (IsOnFloor() || _coyoteJumpTimer.TimeLeft > 0)
+		if (IsOnFloor() || CoyoteJumpTimer.TimeLeft > 0)
 		{
 			_additionalJumpsCount = MovementData.AdditionalJumps;
 			_isAirJump = true;
@@ -101,34 +102,34 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private void HandleWallJump()
-	{
-		if (IsOnWallOnly())
-		{
-			if (Input.IsActionPressed("hang"))
-			{
-				Velocity = Velocity with { Y = 0 };
-				_isStuckOnWall = true;
-			}
-			else if (_isStuckOnWall) // isOnWall but hang not pressed => wallSlide
-			{
-				Velocity = Velocity with { Y = MovementData.WallSlideAcceleration };
-			}
+	//private void HandleWallJump()
+	//{
+	//	if (IsOnWallOnly())
+	//	{
+	//		if (Input.IsActionPressed("hang"))
+	//		{
+	//			Velocity = Velocity with { Y = 0 };
+	//			IsStuckOnWall = true;
+	//		}
+	//		else if (IsStuckOnWall) // isOnWall but hang not pressed => wallSlide
+	//		{
+	//			Velocity = Velocity with { Y = MovementData.WallSlideAcceleration };
+	//		}
 
-			if (Input.IsActionJustPressed("jump") && _isStuckOnWall)
-			{
-				_isStuckOnWall = false;
-				var wallJumpYPower = -80;
-				var wallJumpXPower = 80;
-				Velocity = Velocity with { Y = wallJumpYPower };
-				Velocity = Velocity with { X = GetWallNormal().X * wallJumpXPower };
-			}
-		}
-		if (IsOnFloor())
-		{
-			_isStuckOnWall = false;
-		}
-	}
+	//		if (Input.IsActionJustPressed("jump") && IsStuckOnWall)
+	//		{
+	//			IsStuckOnWall = false;
+	//			var wallJumpYPower = -80;
+	//			var wallJumpXPower = 80;
+	//			Velocity = Velocity with { Y = wallJumpYPower };
+	//			Velocity = Velocity with { X = GetWallNormal().X * wallJumpXPower };
+	//		}
+	//	}
+	//	if (IsOnFloor())
+	//	{
+	//		IsStuckOnWall = false;
+	//	}
+	//}
 
 	private void HandleXMovements(double delta, Vector2 input)
 	{
@@ -180,7 +181,7 @@ public partial class Player : CharacterBody2D
 	{
 		if (wasPlayerOnTheFloor && IsPlayerFalling())
 		{
-			_coyoteJumpTimer.Start();
+			CoyoteJumpTimer.Start();
 		}
 	}
 

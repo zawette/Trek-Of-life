@@ -469,3 +469,12 @@ script = ExtResource("59_gv7l3")
 
 [node name="JumpState" type="Node" parent="PlayerStateMachine"]
 script = ExtResource("60_bymau")
+
+[node name="DebugState" type="Label" parent="."]
+offset_left = -1.0
+offset_top = -22.0
+offset_right = 39.0
+offset_bottom = 4.0
+scale = Vector2(0.108084, 0.13373)
+text = "
+state"
