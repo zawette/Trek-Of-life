@@ -9,6 +9,8 @@ public partial class JumpState : BasePlayerState
     public override void OnEnter(Dictionary<string, Variant> message = null)
     {
         base.OnEnter(message);
+        if (message.ContainsKey(playerMsgKeys.freeFall.ToString()))
+            return;
         PlayerV.Velocity = PlayerV.Velocity with { Y = PlayerV.MovementData.JumpVelocity };
     }
 
@@ -42,6 +44,7 @@ public partial class JumpState : BasePlayerState
         }
     }
 
+    // move to wall hang state
     private void HandleWallJump()
     {
         if (PlayerV.IsOnWallOnly())
