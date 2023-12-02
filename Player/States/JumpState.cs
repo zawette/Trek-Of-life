@@ -5,9 +5,13 @@ using System;
 public partial class JumpState : BasePlayerState
 {
     private bool _isStuckOnWall = false;
+    private bool _isAirJump;
+    private byte _additionalJumpsCount;
+
 
     public override void OnEnter(Dictionary<string, Variant> message = null)
     {
+        _additionalJumpsCount = PlayerV.MovementData.AdditionalJumps;
         base.OnEnter(message);
         if (message.ContainsKey(playerMsgKeys.freeFall.ToString()))
             return;
@@ -25,6 +29,7 @@ public partial class JumpState : BasePlayerState
         HandleXAirMovements(delta);
         ApplyAirResistance(delta);
         ApplyLowJump(delta);
+        HandleMultipleJump(delta);
         HandleWallJump();
 
     }
@@ -42,6 +47,15 @@ public partial class JumpState : BasePlayerState
         if (PlayerV.InputDir.X == 0 && !PlayerV.IsOnFloor())
         {
             PlayerV.Velocity = PlayerV.Velocity with { X = (float)Mathf.MoveToward(PlayerV.Velocity.X, 0, PlayerV.MovementData.AirResistance * delta) };
+        }
+    }
+
+    private void HandleMultipleJump(double delta)
+    {
+        if (Input.IsActionJustPressed("jump") && _additionalJumpsCount > 0)
+        {
+            PlayerV.Velocity = PlayerV.Velocity with { Y = PlayerV.MovementData.JumpVelocity * PlayerV.MovementData.AdditionalJumpsVelocityMultiplier };
+            _additionalJumpsCount--;
         }
     }
 
