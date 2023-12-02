@@ -14,7 +14,7 @@ public partial class JumpState : BasePlayerState
         _additionalJumpsCount = PlayerV.MovementData.AdditionalJumps;
         base.OnEnter(message);
         if (message.ContainsKey(playerMsgKeys.wallJump.ToString())) { 
-            PlayerV.Velocity = PlayerV.Velocity with { Y = PlayerV.MovementData.WallJumpYPower, X = PlayerV.MovementData.WallJumpXPower };
+            PlayerV.Velocity = PlayerV.Velocity with { Y = PlayerV.MovementData.WallJumpYPower, X = PlayerV.MovementData.WallJumpXPower * PlayerV.GetWallNormal().X };
             return;
         }
         if (message.ContainsKey(playerMsgKeys.freeFall.ToString()))
