@@ -24,6 +24,7 @@ public partial class JumpState : BasePlayerState
 
         HandleXAirMovements(delta);
         ApplyAirResistance(delta);
+        ApplyLowJump(delta);
         HandleWallJump();
 
     }
@@ -41,6 +42,14 @@ public partial class JumpState : BasePlayerState
         if (PlayerV.InputDir.X == 0 && !PlayerV.IsOnFloor())
         {
             PlayerV.Velocity = PlayerV.Velocity with { X = (float)Mathf.MoveToward(PlayerV.Velocity.X, 0, PlayerV.MovementData.AirResistance * delta) };
+        }
+    }
+
+    private void ApplyLowJump(double delta)
+    {
+        if (Input.IsActionJustReleased("jump") && PlayerV.IsPlayerJumping())
+        {
+            PlayerV.Velocity = PlayerV.Velocity with { Y = PlayerV.Velocity.Y + PlayerV.MovementData.LowJumpMultiplier * PlayerV.Gravity };
         }
     }
 

@@ -8,7 +8,7 @@ public partial class Player : CharacterBody2D
 	public Vector2 InputDir = Vector2.Zero;
 	public Timer CoyoteJumpTimer;
 
-	private float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+	public float Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 	private AnimationPlayer _legsAnimation;
 	private AnimatedSprite2D _legsSprite;
 	private AnimatedSprite2D _bodySprite;
@@ -69,7 +69,7 @@ public partial class Player : CharacterBody2D
 	private void AddGravity(double delta)
 	{
 		if (!IsOnFloor())
-			Velocity = Velocity with { Y = Velocity.Y + gravity * MovementData.GravityScale * (float)delta };
+			Velocity = Velocity with { Y = Velocity.Y + Gravity * MovementData.GravityScale * (float)delta };
 	}
 	private void HandleJump(double delta)
 	{
@@ -86,7 +86,7 @@ public partial class Player : CharacterBody2D
 		{
 			if (Input.IsActionJustReleased("jump") && IsPlayerJumping())
 			{
-				Velocity = Velocity with { Y = Velocity.Y + MovementData.LowJumpMultiplier * gravity };
+				Velocity = Velocity with { Y = Velocity.Y + MovementData.LowJumpMultiplier * Gravity };
 			}
 
 			if (Input.IsActionJustPressed("jump") && _isAirJump && _additionalJumpsCount > 0)
@@ -194,6 +194,6 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private bool IsPlayerJumping() => Velocity.Y < 0;
-	private bool IsPlayerFalling() => !IsOnFloor() && Velocity.Y >= 0;
+	public bool IsPlayerJumping() => Velocity.Y < 0;
+	public bool IsPlayerFalling() => !IsOnFloor() && Velocity.Y >= 0;
 }
