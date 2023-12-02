@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://bhysvs188vnlj"]
+[gd_scene load_steps=72 format=3 uid="uid://bhysvs188vnlj"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_dd3w2"]
 [ext_resource type="Resource" uid="uid://cm8dgvmkccnmr" path="res://Player/Resources/PlayerMovementData/DefaultPlayerMovementData.tres" id="2_moxxj"]
@@ -60,6 +60,7 @@
 [ext_resource type="Script" path="res://Player/States/IdleState.cs" id="58_xva30"]
 [ext_resource type="Script" path="res://Player/States/RunState.cs" id="59_gv7l3"]
 [ext_resource type="Script" path="res://Player/States/JumpState.cs" id="60_bymau"]
+[ext_resource type="Script" path="res://Player/States/WallHangState.cs" id="61_txyha"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8xf7v"]
 size = Vector2(3, 7)
@@ -469,6 +470,9 @@ script = ExtResource("59_gv7l3")
 
 [node name="JumpState" type="Node" parent="PlayerStateMachine"]
 script = ExtResource("60_bymau")
+
+[node name="WallHangState" type="Node" parent="PlayerStateMachine"]
+script = ExtResource("61_txyha")
 
 [node name="DebugState" type="Label" parent="."]
 offset_left = -1.0

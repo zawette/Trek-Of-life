@@ -30,5 +30,6 @@ public partial class IdleState : BasePlayerState
             var dic = new Godot.Collections.Dictionary<string, Variant>() { { playerMsgKeys.freeFall.ToString(), true } };
             EmitSwitchState("JumpState", dic);
         }
+        PlayerV.MoveAndSlide();
     }
 }

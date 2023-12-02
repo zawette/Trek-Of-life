@@ -13,8 +13,13 @@ public partial class JumpState : BasePlayerState
     {
         _additionalJumpsCount = PlayerV.MovementData.AdditionalJumps;
         base.OnEnter(message);
+        if (message.ContainsKey(playerMsgKeys.wallJump.ToString())) { 
+            PlayerV.Velocity = PlayerV.Velocity with { Y = PlayerV.MovementData.WallJumpYPower, X = PlayerV.MovementData.WallJumpXPower };
+            return;
+        }
         if (message.ContainsKey(playerMsgKeys.freeFall.ToString()))
             return;
+
         PlayerV.Velocity = PlayerV.Velocity with { Y = PlayerV.MovementData.JumpVelocity };
     }
 
@@ -31,7 +36,7 @@ public partial class JumpState : BasePlayerState
         ApplyLowJump(delta);
         HandleMultipleJump(delta);
         HandleWallJump();
-
+        PlayerV.MoveAndSlide();
     }
 
     private void HandleXAirMovements(double delta)
@@ -74,22 +79,21 @@ public partial class JumpState : BasePlayerState
         {
             if (Input.IsActionPressed("hang"))
             {
-                PlayerV.Velocity = PlayerV.Velocity with { Y = 0 };
-                _isStuckOnWall = true;
+                EmitSwitchState("WallHangState");
             }
-            else if (_isStuckOnWall) // isOnWall but hang not pressed => wallSlide
-            {
-                PlayerV.Velocity = PlayerV.Velocity with { Y = PlayerV.MovementData.WallSlideAcceleration };
-            }
+            //else if (_isStuckOnWall) // isOnWall but hang not pressed => wallSlide
+            //{
+            //    PlayerV.Velocity = PlayerV.Velocity with { Y = PlayerV.MovementData.WallSlideAcceleration };
+            //}
 
-            if (Input.IsActionJustPressed("jump") && _isStuckOnWall)
-            {
-                _isStuckOnWall = false;
-                var wallJumpYPower = -80;
-                var wallJumpXPower = 80;
-                PlayerV.Velocity = PlayerV.Velocity with { Y = wallJumpYPower };
-                PlayerV.Velocity = PlayerV.Velocity with { X = PlayerV.GetWallNormal().X * wallJumpXPower };
-            }
+            //if (Input.IsActionJustPressed("jump") && _isStuckOnWall)
+            //{
+            //    _isStuckOnWall = false;
+            //    var wallJumpYPower = -80;
+            //    var wallJumpXPower = 80;
+            //    PlayerV.Velocity = PlayerV.Velocity with { Y = wallJumpYPower };
+            //    PlayerV.Velocity = PlayerV.Velocity with { X = PlayerV.GetWallNormal().X * wallJumpXPower };
+            //}
         }
     }
 

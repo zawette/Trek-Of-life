@@ -38,14 +38,9 @@ public partial class Player : CharacterBody2D
 		InputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 		AddGravity(delta);
 		HandleAim();
-		//HandleXMovements(delta, inputDir);
-		//ApplyFriction(delta, InputDir);
-		//ApplyAirResistance(delta, InputDir);
-		//HandleJump(delta);
 		UpdateAnimations(InputDir);
 		var wasOnfloor = IsOnFloor();
-		//HandleWallJump();
-		MoveAndSlide();
+		//MoveAndSlide();
 		AlignCharToSlope();
 		HandleCoyoteTimer(wasOnfloor);
 
@@ -71,98 +66,6 @@ public partial class Player : CharacterBody2D
 		if (!IsOnFloor())
 			Velocity = Velocity with { Y = Velocity.Y + Gravity * MovementData.GravityScale * (float)delta };
 	}
-	private void HandleJump(double delta)
-	{
-		if (IsOnFloor() || CoyoteJumpTimer.TimeLeft > 0)
-		{
-			_additionalJumpsCount = MovementData.AdditionalJumps;
-			_isAirJump = true;
-			if (Input.IsActionJustPressed("jump"))
-			{
-				Velocity = Velocity with { Y = MovementData.JumpVelocity };
-			}
-		}
-		else if (!IsOnFloor())
-		{
-			if (Input.IsActionJustReleased("jump") && IsPlayerJumping())
-			{
-				Velocity = Velocity with { Y = Velocity.Y + MovementData.LowJumpMultiplier * Gravity };
-			}
-
-			if (Input.IsActionJustPressed("jump") && _isAirJump && _additionalJumpsCount > 0)
-			{
-				Velocity = Velocity with { Y = MovementData.JumpVelocity * MovementData.AdditionalJumpsVelocityMultiplier };
-				_additionalJumpsCount--;
-			}
-
-			if (_additionalJumpsCount == 0)
-			{
-				_isAirJump = false;
-			}
-		}
-	}
-
-	//private void HandleWallJump()
-	//{
-	//	if (IsOnWallOnly())
-	//	{
-	//		if (Input.IsActionPressed("hang"))
-	//		{
-	//			Velocity = Velocity with { Y = 0 };
-	//			IsStuckOnWall = true;
-	//		}
-	//		else if (IsStuckOnWall) // isOnWall but hang not pressed => wallSlide
-	//		{
-	//			Velocity = Velocity with { Y = MovementData.WallSlideAcceleration };
-	//		}
-
-	//		if (Input.IsActionJustPressed("jump") && IsStuckOnWall)
-	//		{
-	//			IsStuckOnWall = false;
-	//			var wallJumpYPower = -80;
-	//			var wallJumpXPower = 80;
-	//			Velocity = Velocity with { Y = wallJumpYPower };
-	//			Velocity = Velocity with { X = GetWallNormal().X * wallJumpXPower };
-	//		}
-	//	}
-	//	if (IsOnFloor())
-	//	{
-	//		IsStuckOnWall = false;
-	//	}
-	//}
-
-	private void HandleXMovements(double delta, Vector2 input)
-	{
-
-		if (input.X != 0 && IsOnFloor())
-		{
-			Velocity = Velocity with { X = (float)Mathf.MoveToward(Velocity.X, MovementData.Speed * input.X, MovementData.Acceleration * delta) };
-		}
-
-		if (input.X != 0 && !IsOnFloor())
-		{
-			Velocity = Velocity with { X = (float)Mathf.MoveToward(Velocity.X, MovementData.Speed * input.X, MovementData.AirAcceleration * delta) };
-		}
-	}
-
-	private void ApplyFriction(double delta, Vector2 input)
-	{
-
-		if (input.X == 0 && IsOnFloor())
-		{
-			Velocity = Velocity with { X = (float)Mathf.MoveToward(Velocity.X, 0, MovementData.Friction * delta) };
-		}
-	}
-
-	private void ApplyAirResistance(double delta, Vector2 input)
-	{
-
-		if (input.X == 0 && !IsOnFloor())
-		{
-			Velocity = Velocity with { X = (float)Mathf.MoveToward(Velocity.X, 0, MovementData.AirResistance * delta) };
-		}
-	}
-
 	private void UpdateAnimations(Vector2 input)
 	{
 		if (input.X != 0)

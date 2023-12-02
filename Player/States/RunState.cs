@@ -30,7 +30,8 @@ public partial class RunState : BasePlayerState
 
         HandleXMovements(delta);
 		ApplyFriction(delta);
-	}
+		PlayerV.MoveAndSlide();
+    }
 
 
 	private void HandleXMovements(double delta)
