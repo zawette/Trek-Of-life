@@ -22,16 +22,16 @@ public partial class RunState : BasePlayerState
 			EmitSwitchState("JumpState");
 		}
 
-        if (!PlayerV.IsOnFloor())
-        {
-            var dic = new Godot.Collections.Dictionary<string, Variant>() { { playerMsgKeys.freeFall.ToString(), true } };
-            EmitSwitchState("JumpState", dic);
-        }
+		if (!PlayerV.IsOnFloor())
+		{
+			var dic = new Godot.Collections.Dictionary<string, Variant>() { { playerMsgKeys.freeFall.ToString(), true } };
+			EmitSwitchState("JumpState", dic);
+		}
 
-        HandleXMovements(delta);
+		HandleXMovements(delta);
 		ApplyFriction(delta);
 		PlayerV.MoveAndSlide();
-    }
+	}
 
 
 	private void HandleXMovements(double delta)

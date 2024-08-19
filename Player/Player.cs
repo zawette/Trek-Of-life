@@ -17,14 +17,11 @@ public partial class Player : CharacterBody2D
 	private AnimatedSprite2D _headSprite;
 	private CharacterBody2D _characterBody2D;
 	private Node2D _playerSprite;
-	private byte _additionalJumpsCount;
-	private bool _isAirJump;
 
 	public override void _Ready()
 	{
 		_playerSprite = GetNode<Node2D>("PlayerSprite");
 		CoyoteJumpTimer = GetNode<Timer>("CoyoteJumpTimer");
-		_additionalJumpsCount = MovementData.AdditionalJumps;
 		_legsAnimation = GetNode<AnimationPlayer>("LegsAnimation");
 		_frontArmSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Front_Arm");
 		_hand = GetNode<Marker2D>("PlayerSprite/Body/Front_Arm/Hand");
