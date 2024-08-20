@@ -13,8 +13,9 @@ public partial class Player : CharacterBody2D
 	public AnimatedSprite2D LegsSprite;
 	private AnimatedSprite2D _bodySprite;
 	private AnimatedSprite2D _frontArmSprite;
-	private Marker2D _hand;
-	private AnimatedSprite2D _headSprite;
+	private Marker2D _handRight;
+    private Marker2D _handLeft;
+    private AnimatedSprite2D _headSprite;
 	private CharacterBody2D _characterBody2D;
 	private Node2D _playerSprite;
 
@@ -24,7 +25,8 @@ public partial class Player : CharacterBody2D
 		CoyoteJumpTimer = GetNode<Timer>("CoyoteJumpTimer");
 		LegsAnimation = GetNode<AnimationPlayer>("LegsAnimation");
 		_frontArmSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Front_Arm");
-		_hand = GetNode<Marker2D>("PlayerSprite/Body/Front_Arm/Hand");
+		_handRight = GetNode<Marker2D>("PlayerSprite/Body/Front_Arm/HandRight");
+		_handLeft = GetNode<Marker2D>("PlayerSprite/Body/Front_Arm/HandLeft");
 		LegsSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Legs");
 		_bodySprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body");
 		_headSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Head");
@@ -41,12 +43,20 @@ public partial class Player : CharacterBody2D
 	private void HandleAim()
 	{
 		var globalMousePosition = GetGlobalMousePosition();
-		var mousePositionNormalized = (globalMousePosition - _hand.GlobalPosition).Normalized();
-		var shouldFlip = mousePositionNormalized.X < 0;
+		var direction = (globalMousePosition - _handRight.GlobalPosition).Normalized();
+		var shouldFlip = direction.X < 0;
 		_frontArmSprite.LookAt(GetGlobalMousePosition());
+		var currentHand = shouldFlip ? _handLeft : _handRight;
 		_frontArmSprite.FlipV = shouldFlip;
 		_bodySprite.FlipH = shouldFlip;
 		_headSprite.FlipH = shouldFlip;
+	
+		if(Input.IsActionJustPressed("shoot")){
+			var bullet = GD.Load<PackedScene>("res://Player/weapons/bullet/Bullet.tscn").Instantiate<Bullet>();
+			GetParent().AddChild(bullet);
+			bullet.GlobalPosition = currentHand.GlobalPosition;
+			bullet.Direction = direction;
+		}
 
 	}
 

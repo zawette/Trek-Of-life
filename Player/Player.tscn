@@ -455,8 +455,11 @@ sprite_frames = SubResource("SpriteFrames_gu1fo")
 [node name="Front_Arm" type="AnimatedSprite2D" parent="PlayerSprite/Body"]
 sprite_frames = SubResource("SpriteFrames_03mlw")
 
-[node name="Hand" type="Marker2D" parent="PlayerSprite/Body/Front_Arm"]
+[node name="HandRight" type="Marker2D" parent="PlayerSprite/Body/Front_Arm"]
 position = Vector2(23.3333, 10)
+
+[node name="HandLeft" type="Marker2D" parent="PlayerSprite/Body/Front_Arm"]
+position = Vector2(23.333, -7.341)
 
 [node name="LegsAnimation" type="AnimationPlayer" parent="."]
 speed_scale = 1.5
