@@ -11,7 +11,8 @@ public partial class JumpState : BasePlayerState
 		base.OnEnter(message);
 		PlayerV.LegsAnimation.Play("Jump");
 
-		if (message.ContainsKey(playerMsgKeys.wallJump.ToString())) { 
+		if (message.ContainsKey(playerMsgKeys.wallJump.ToString()))
+		{
 			PlayerV.Velocity = PlayerV.Velocity with { Y = PlayerV.MovementData.WallJumpYPower, X = PlayerV.MovementData.WallJumpXPower * PlayerV.GetWallNormal().X };
 			return;
 		}
@@ -24,9 +25,11 @@ public partial class JumpState : BasePlayerState
 	public override void OnPhysicsUpdate(double delta)
 	{
 		base.OnPhysicsUpdate(delta);
+
 		if (PlayerV.IsOnFloor())
 		{
-			EmitSwitchState("IdleState");
+			if (PlayerV.InputDir.X != 0) EmitSwitchState("RunState");
+			else EmitSwitchState("IdleState");
 		}
 
 		HandleXAirMovements(delta);
