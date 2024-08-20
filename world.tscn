@@ -1,13 +1,47 @@
-[gd_scene load_steps=2 format=3 uid="uid://m04e5x80gp3y"]
+[gd_scene load_steps=5 format=3 uid="uid://m04e5x80gp3y"]
 
 [ext_resource type="PackedScene" uid="uid://bhysvs188vnlj" path="res://Player/Player.tscn" id="1_74ayr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1dyya"]
+size = Vector2(12, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_er86v"]
+size = Vector2(91, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2cwfw"]
+size = Vector2(5.25, 52.5)
 
 [node name="World" type="Node2D"]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PackedVector2Array(-8, -24, 8, -24, 8, 0, 24, 0, 24, 16, 40, 16, 40, 5, 56, 5, 80, 8, 88, 8, 88, -3, 104, -3, 104, 0, 104, -13, 128, -13, 128, 16, 136, 16, 136, -8, 152, -8, 152, 0, 168, 0, 168, -24, 184, -24, 184, 40, 0, 40, -8, 40)
+polygon = PackedVector2Array(-8, -24, 8, -24, 8, 0, 24, 0, 24, 16, 40, 16, 40, 5, 56, 5, 80, 8, 88, 8, 88, -3, 104, -3, 104, 0, 104, -13, 128, -13, 128, 16, 136, 16, 136, -8, 152, -8, 152, 0, 168, 0, 168, -17, 184, -17, 184, 40, 0, 40, -8, 40)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(206, -24)
+shape = SubResource("RectangleShape2D_1dyya")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(191, -36)
+shape = SubResource("RectangleShape2D_1dyya")
+one_way_collision = true
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(132.5, -45)
+shape = SubResource("RectangleShape2D_er86v")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(121, -83)
+shape = SubResource("RectangleShape2D_2cwfw")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(107, -83)
+shape = SubResource("RectangleShape2D_2cwfw")
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(50, -104)
+shape = SubResource("RectangleShape2D_er86v")
 
 [node name="Player" parent="." instance=ExtResource("1_74ayr")]
-position = Vector2(-1, -26)
+position = Vector2(-1, -20)

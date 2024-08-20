@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://bhysvs188vnlj"]
+[gd_scene load_steps=74 format=3 uid="uid://bhysvs188vnlj"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_dd3w2"]
 [ext_resource type="Resource" uid="uid://cm8dgvmkccnmr" path="res://Player/Resources/PlayerMovementData/DefaultPlayerMovementData.tres" id="2_moxxj"]
@@ -61,6 +61,7 @@
 [ext_resource type="Script" path="res://Player/States/RunState.cs" id="59_gv7l3"]
 [ext_resource type="Script" path="res://Player/States/JumpState.cs" id="60_bymau"]
 [ext_resource type="Script" path="res://Player/States/WallHangState.cs" id="61_txyha"]
+[ext_resource type="Script" path="res://Player/States/FallState.cs" id="62_5bmn1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8xf7v"]
 size = Vector2(3, 7)
@@ -317,10 +318,10 @@ tracks/1/path = NodePath("PlayerSprite/Legs:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 4]
+"values": [0, 1, 2, 3]
 }
 
 [sub_resource type="Animation" id="Animation_k6xd6"]
@@ -402,8 +403,24 @@ tracks/2/keys = {
 "values": [&"Running"]
 }
 
+[sub_resource type="Animation" id="Animation_k5fsx"]
+resource_name = "Fall"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite/Legs:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uig7p"]
 _data = {
+"Fall": SubResource("Animation_k5fsx"),
 "Idle": SubResource("Animation_eajrp"),
 "Jump": SubResource("Animation_n20up"),
 "RESET": SubResource("Animation_k6xd6"),
@@ -473,6 +490,9 @@ script = ExtResource("60_bymau")
 
 [node name="WallHangState" type="Node" parent="PlayerStateMachine"]
 script = ExtResource("61_txyha")
+
+[node name="FallState" type="Node" parent="PlayerStateMachine"]
+script = ExtResource("62_5bmn1")
 
 [node name="DebugState" type="Label" parent="."]
 offset_left = -1.0

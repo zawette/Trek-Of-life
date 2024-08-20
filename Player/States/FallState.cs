@@ -2,20 +2,12 @@ using Godot;
 using Godot.Collections;
 using System;
 
-public partial class JumpState : BasePlayerState
+public partial class FallState : BasePlayerState
 {
 	public override void OnEnter(Dictionary<string, Variant> message = null)
 	{
 		base.OnEnter(message);
-		PlayerV.LegsAnimation.Play("Jump");
-
-		if (message.ContainsKey(playerMsgKeys.wallJump.ToString()))
-		{
-			PlayerV.Velocity = PlayerV.Velocity with { Y = PlayerV.MovementData.WallJumpYPower, X = PlayerV.MovementData.WallJumpXPower * PlayerV.GetWallNormal().X };
-			return;
-		}
-
-		PlayerV.Velocity = PlayerV.Velocity with { Y = PlayerV.MovementData.JumpVelocity };
+		PlayerV.LegsAnimation.Play("Fall");
 	}
 
 	public override void OnPhysicsUpdate(double delta)
@@ -28,11 +20,8 @@ public partial class JumpState : BasePlayerState
 			else EmitSwitchState("IdleState");
 		}
 
-		if(PlayerV.Velocity.Y >= 0) EmitSwitchState("FallState");
-
 		HandleXAirMovements(delta);
 		ApplyAirResistance(delta);
-		ApplyLowJump(delta);
 		HandleWallJump();
 		PlayerV.MoveAndSlide();
 	}
@@ -53,15 +42,7 @@ public partial class JumpState : BasePlayerState
 		}
 	}
 
-	private void ApplyLowJump(double delta)
-	{
-		if (Input.IsActionJustReleased("jump") && PlayerV.IsPlayerJumping())
-		{
-			PlayerV.Velocity = PlayerV.Velocity with { Y = PlayerV.Velocity.Y + PlayerV.MovementData.LowJumpMultiplier * PlayerV.Gravity };
-		}
-	}
 
-	// move to wall hang state
 	private void HandleWallJump()
 	{
 		if (PlayerV.IsOnWallOnly())
