@@ -7,11 +7,11 @@ public partial class PlayerMovementData : Resource
 	[Export]
 	public float Speed { get; set; } = 40.0f;
 	[Export]
-	public float Acceleration { get; set; } = 350.0f;
+	public float Acceleration { get; set; } = 150.0f;
 	[Export]
-	public float AirAcceleration { get; set; } = 200.0f;
+	public float AirAcceleration { get; set; } = 100.0f;
 	[Export]
-	public float Friction { get; set; } = 400.0f;
+	public float Friction { get; set; } = 10.0f;
 	[Export]
 	public float AirResistance { get; set; } = 100.0f;
 	[Export]
@@ -21,7 +21,7 @@ public partial class PlayerMovementData : Resource
 	[Export]
 	public float GravityScale { get; set; } = 0.3f;
 	[Export]
-	public float WallSlideAcceleration  { get; set; } = 5;
+	public float WallSlideAcceleration  { get; set; } = 8;
 	[Export]
 	public float WallJumpYPower   { get; set; } = -50;
 	[Export]

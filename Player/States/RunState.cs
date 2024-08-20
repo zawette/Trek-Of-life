@@ -15,7 +15,7 @@ public partial class RunState : BasePlayerState
 		base.OnPhysicsUpdate(delta);
 		PlayerV.LegsSprite.FlipH = PlayerV.InputDir.X < 0;
 
-		if (PlayerV.InputDir.X == 0)
+		if (PlayerV.Velocity.X == 0)
 		{
 			EmitSwitchState("IdleState");
 		}

@@ -5,13 +5,13 @@
 [resource]
 script = ExtResource("1_7k34i")
 Speed = 40.0
-Acceleration = 350.0
-AirAcceleration = 200.0
-Friction = 400.0
+Acceleration = 150.0
+AirAcceleration = 100.0
+Friction = 10.0
 AirResistance = 100.0
 JumpVelocity = -80.0
 LowJumpMultiplier = 0.03
 GravityScale = 0.3
-WallSlideAcceleration = 5.0
+WallSlideAcceleration = 8.0
 WallJumpYPower = -50.0
 WallJumpXPower = 50.0
