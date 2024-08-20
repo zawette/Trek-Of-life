@@ -9,6 +9,8 @@ public partial class JumpState : BasePlayerState
 	public override void OnEnter(Dictionary<string, Variant> message = null)
 	{
 		base.OnEnter(message);
+		PlayerV.LegsAnimation.Play("Jump");
+
 		if (message.ContainsKey(playerMsgKeys.wallJump.ToString())) { 
 			PlayerV.Velocity = PlayerV.Velocity with { Y = PlayerV.MovementData.WallJumpYPower, X = PlayerV.MovementData.WallJumpXPower * PlayerV.GetWallNormal().X };
 			return;

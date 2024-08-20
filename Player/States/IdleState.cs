@@ -7,7 +7,7 @@ public partial class IdleState : BasePlayerState
 	public override void OnEnter(Dictionary<string, Variant> message = null)
 	{
 		base.OnEnter(message);
-
+		PlayerV.LegsAnimation.Play("Idle");
 		PlayerV.Velocity = PlayerV.Velocity with { Y = 0, X = 0 };
 	}
 

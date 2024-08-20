@@ -9,8 +9,8 @@ public partial class Player : CharacterBody2D
 	public Timer CoyoteJumpTimer;
 
 	public float Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
-	private AnimationPlayer _legsAnimation;
-	private AnimatedSprite2D _legsSprite;
+	public AnimationPlayer LegsAnimation;
+	public AnimatedSprite2D LegsSprite;
 	private AnimatedSprite2D _bodySprite;
 	private AnimatedSprite2D _frontArmSprite;
 	private Marker2D _hand;
@@ -22,10 +22,10 @@ public partial class Player : CharacterBody2D
 	{
 		_playerSprite = GetNode<Node2D>("PlayerSprite");
 		CoyoteJumpTimer = GetNode<Timer>("CoyoteJumpTimer");
-		_legsAnimation = GetNode<AnimationPlayer>("LegsAnimation");
+		LegsAnimation = GetNode<AnimationPlayer>("LegsAnimation");
 		_frontArmSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Front_Arm");
 		_hand = GetNode<Marker2D>("PlayerSprite/Body/Front_Arm/Hand");
-		_legsSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Legs");
+		LegsSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Legs");
 		_bodySprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body");
 		_headSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Head");
 	}
@@ -35,12 +35,7 @@ public partial class Player : CharacterBody2D
 		InputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 		AddGravity(delta);
 		HandleAim();
-		UpdateAnimations(InputDir);
-		var wasOnfloor = IsOnFloor();
-		//MoveAndSlide();
 		AlignCharToSlope();
-		HandleCoyoteTimer(wasOnfloor);
-
 	}
 
 	private void HandleAim()
@@ -62,27 +57,6 @@ public partial class Player : CharacterBody2D
 	{
 		if (!IsOnFloor())
 			Velocity = Velocity with { Y = Velocity.Y + Gravity * MovementData.GravityScale * (float)delta };
-	}
-	private void UpdateAnimations(Vector2 input)
-	{
-		if (input.X != 0)
-		{
-			//_animatedSprite2D.Play("Run");
-			_legsSprite.FlipH = input.X < 0;
-			_legsAnimation.Play("RunForward");
-		}
-		else
-			_legsAnimation.Play("Idle");
-		if (!IsOnFloor())
-			_legsAnimation.Play("Jump");
-	}
-
-	private void HandleCoyoteTimer(bool wasPlayerOnTheFloor)
-	{
-		if (wasPlayerOnTheFloor && IsPlayerFalling())
-		{
-			CoyoteJumpTimer.Start();
-		}
 	}
 
 	private void AlignCharToSlope()
