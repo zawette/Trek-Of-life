@@ -40,17 +40,14 @@ public partial class Player : CharacterBody2D
 
 	private void HandleAim()
 	{
-		var mousePosition = (GetGlobalMousePosition() - _hand.GlobalPosition).Normalized();
-		var shouldFlip = mousePosition.X < 0;
-
-		_frontArmSprite.Rotation = mousePosition.Angle();
-
+		var globalMousePosition = GetGlobalMousePosition();
+		var mousePositionNormalized = (globalMousePosition - _hand.GlobalPosition).Normalized();
+		var shouldFlip = mousePositionNormalized.X < 0;
+		_frontArmSprite.LookAt(GetGlobalMousePosition());
 		_frontArmSprite.FlipV = shouldFlip;
 		_bodySprite.FlipH = shouldFlip;
 		_headSprite.FlipH = shouldFlip;
 
-		//GD.Print(mousePosition);
-		//GD.Print(mousePosition.Angle());
 	}
 
 	private void AddGravity(double delta)
