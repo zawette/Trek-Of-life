@@ -1,6 +1,8 @@
 using Godot;
 using System;
 
+namespace Player.weapons;
+
 public partial class Bullet : Node2D
 {
     private VisibleOnScreenNotifier2D _visibleOnScreenEnabler2D;
@@ -11,6 +13,7 @@ public partial class Bullet : Node2D
     {
         _visibleOnScreenEnabler2D = GetNode<VisibleOnScreenNotifier2D>("VisibleOnScreenNotifier2D");
         _visibleOnScreenEnabler2D.ScreenExited += OnScreenExited;
+        //TODO: when bullet hits target, make it disappear
     }
 
     private void OnScreenExited()

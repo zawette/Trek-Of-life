@@ -1,6 +1,8 @@
 ﻿using Godot;
 
 
+namespace Player.States;
+
 public partial class BasePlayerState : State
 {
     [Export] public Player PlayerV;

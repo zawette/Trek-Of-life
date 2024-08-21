@@ -1,0 +1,121 @@
+[gd_scene load_steps=22 format=3 uid="uid://boeeicl1qu58l"]
+
+[ext_resource type="Script" path="res://Enemies/Tfa7a/Tfa7a.cs" id="1_5s6g6"]
+[ext_resource type="Texture2D" uid="uid://ckjxnw6uin1yw" path="res://Enemies/Tfa7a/sprites/Idle/appuruIddleFix1.png" id="2_qyvch"]
+[ext_resource type="Texture2D" uid="uid://j6fb27o6wewj" path="res://Enemies/Tfa7a/sprites/Idle/appuruIddleFix2.png" id="3_t2h2f"]
+[ext_resource type="Texture2D" uid="uid://b0rr6ky4t2job" path="res://Enemies/Tfa7a/sprites/Idle/appuruIddleFix3.png" id="4_hbcqf"]
+[ext_resource type="Texture2D" uid="uid://bu2lh1ac8c86w" path="res://Enemies/Tfa7a/sprites/Idle/appuruIddleFix4.png" id="5_hxx1r"]
+[ext_resource type="Texture2D" uid="uid://ka03mqy1f2h1" path="res://Enemies/Tfa7a/sprites/Idle/appuruIddleFix5.png" id="6_aurdu"]
+[ext_resource type="Texture2D" uid="uid://oeqs8ctry4wl" path="res://Enemies/Tfa7a/sprites/Idle/appuruIddleFix6.png" id="7_ijthe"]
+[ext_resource type="Texture2D" uid="uid://6rla6orqany1" path="res://Enemies/Tfa7a/sprites/Idle/appuruIddleFix7.png" id="8_trrmx"]
+[ext_resource type="Texture2D" uid="uid://bl54ncvy5gaip" path="res://Enemies/Tfa7a/sprites/Idle/appuruIddleFix8.png" id="9_utkpj"]
+[ext_resource type="Texture2D" uid="uid://cfq7nwnfsqs0c" path="res://Enemies/Tfa7a/sprites/Idle/appuruIddleFix9.png" id="10_wnxcy"]
+[ext_resource type="Texture2D" uid="uid://dh4mmft4sg1ck" path="res://Enemies/Tfa7a/sprites/Idle/appuruIddleFix10.png" id="11_dce71"]
+[ext_resource type="Texture2D" uid="uid://ysi52vlsgk66" path="res://Enemies/Tfa7a/sprites/Moving/appuruMoving1.png" id="12_dk1pn"]
+[ext_resource type="Texture2D" uid="uid://1gq057kg7xk3" path="res://Enemies/Tfa7a/sprites/Moving/appuruMoving2.png" id="13_35wea"]
+[ext_resource type="Texture2D" uid="uid://cc4shih0tgs6t" path="res://Enemies/Tfa7a/sprites/Moving/appuruMoving3.png" id="14_88nth"]
+[ext_resource type="Texture2D" uid="uid://cyd0albd8tsii" path="res://Enemies/Tfa7a/sprites/Moving/appuruMoving4.png" id="15_fkima"]
+[ext_resource type="Texture2D" uid="uid://cimbfjtn3umky" path="res://Enemies/Tfa7a/sprites/Moving/appuruMoving5.png" id="16_jgipc"]
+[ext_resource type="Script" path="res://Enemies/Tfa7a/States/Tfa7aStateMachine.cs" id="17_tdvwj"]
+[ext_resource type="Script" path="res://Enemies/Tfa7a/States/IdleState.cs" id="18_3nimf"]
+[ext_resource type="Script" path="res://Enemies/Tfa7a/States/MovingState.cs" id="19_i61mk"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gorip"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_qyvch")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_t2h2f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_hbcqf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_hxx1r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_aurdu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ijthe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_trrmx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_utkpj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_wnxcy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_dce71")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_dk1pn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_35wea")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_88nth")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_fkima")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_jgipc")
+}],
+"loop": true,
+"name": &"Moving",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ruet4"]
+size = Vector2(88.8889, 68.8889)
+
+[node name="Tfa7a" type="CharacterBody2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_5s6g6")
+Speed = null
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -4)
+scale = Vector2(0.100781, 0.100781)
+sprite_frames = SubResource("SpriteFrames_gorip")
+animation = &"Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(5.96046e-08, -2.9)
+scale = Vector2(0.09, 0.09)
+shape = SubResource("RectangleShape2D_ruet4")
+debug_color = Color(0.917647, 0.0470588, 0.690196, 0.419608)
+
+[node name="DebugState" type="Label" parent="."]
+offset_left = -6.0
+offset_top = -18.0
+offset_right = 34.0
+offset_bottom = 8.0
+scale = Vector2(0.3, 0.3)
+text = "State"
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
+script = ExtResource("17_tdvwj")
+InitialState = NodePath("IdleState")
+
+[node name="IdleState" type="Node" parent="StateMachine"]
+script = ExtResource("18_3nimf")
+
+[node name="MovingState" type="Node" parent="StateMachine"]
+script = ExtResource("19_i61mk")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true

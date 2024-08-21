@@ -1,6 +1,8 @@
 using Godot;
+using Player.weapons;
 using System;
 
+namespace Player;
 public partial class Player : CharacterBody2D
 {
 	[Export]

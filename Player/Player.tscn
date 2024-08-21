@@ -270,6 +270,21 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Animation" id="Animation_k5fsx"]
+resource_name = "Fall"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite/Legs:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
 [sub_resource type="Animation" id="Animation_eajrp"]
 resource_name = "Idle"
 tracks/0/type = "value"
@@ -403,21 +418,6 @@ tracks/2/keys = {
 "values": [&"Running"]
 }
 
-[sub_resource type="Animation" id="Animation_k5fsx"]
-resource_name = "Fall"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlayerSprite/Legs:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [4]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uig7p"]
 _data = {
 "Fall": SubResource("Animation_k5fsx"),
@@ -427,7 +427,7 @@ _data = {
 "RunForward": SubResource("Animation_3e24x")
 }
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D"]
 position = Vector2(0, 10)
 script = ExtResource("1_dd3w2")
 MovementData = ExtResource("2_moxxj")
@@ -499,9 +499,9 @@ script = ExtResource("62_5bmn1")
 
 [node name="DebugState" type="Label" parent="."]
 offset_left = -1.0
-offset_top = -22.0
-offset_right = 39.0
-offset_bottom = 4.0
+offset_top = -24.0
+offset_right = 38.0
+offset_bottom = 28.0
 scale = Vector2(0.108084, 0.13373)
 text = "
 state"

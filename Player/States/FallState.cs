@@ -2,6 +2,9 @@ using Godot;
 using Godot.Collections;
 using System;
 
+namespace Player.States;
+
+
 public partial class FallState : BasePlayerState
 {
 	public override void OnEnter(Dictionary<string, Variant> message = null)
