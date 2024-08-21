@@ -19,7 +19,7 @@ public partial class FallState : BasePlayerState
 
 		if (PlayerV.IsOnFloor())
 		{
-			if (PlayerV.InputDir.X != 0) EmitSwitchState("RunState");
+			if (PlayerV.InputDir.X != 0 || PlayerV.IsAutoRunning) EmitSwitchState("RunState");
 			else EmitSwitchState("IdleState");
 		}
 
@@ -31,15 +31,16 @@ public partial class FallState : BasePlayerState
 
 	private void HandleXAirMovements(double delta)
 	{
-		if (PlayerV.InputDir.X != 0)
+		if (PlayerV.InputDir.X != 0 || PlayerV.IsAutoRunning)
 		{
-			PlayerV.Velocity = PlayerV.Velocity with { X = (float)Mathf.MoveToward(PlayerV.Velocity.X, PlayerV.MovementData.Speed * PlayerV.InputDir.X, PlayerV.MovementData.AirAcceleration * delta) };
+			var direction = PlayerV.IsAutoRunning ? PlayerV.AutoRunDirection.X : PlayerV.InputDir.X;
+			PlayerV.Velocity = PlayerV.Velocity with { X = (float)Mathf.MoveToward(PlayerV.Velocity.X, PlayerV.MovementData.Speed * direction, PlayerV.MovementData.AirAcceleration * delta) };
 		}
 	}
 	private void ApplyAirResistance(double delta)
 	{
 
-		if (PlayerV.InputDir.X == 0)
+		if (PlayerV.InputDir.X == 0 && !PlayerV.IsAutoRunning)
 		{
 			PlayerV.Velocity = PlayerV.Velocity with { X = (float)Mathf.MoveToward(PlayerV.Velocity.X, 0, PlayerV.MovementData.AirResistance * delta) };
 		}

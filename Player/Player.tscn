@@ -432,6 +432,8 @@ position = Vector2(0, 10)
 collision_layer = 2
 script = ExtResource("1_dd3w2")
 MovementData = ExtResource("2_moxxj")
+IsAutoRunning = null
+AutoRunDirection = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, -13.5)

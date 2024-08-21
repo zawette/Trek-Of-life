@@ -16,8 +16,10 @@ public partial class IdleState : BasePlayerState
 	public override void OnPhysicsUpdate(double delta)
 	{
 		base.OnPhysicsUpdate(delta);
+		
+		if(PlayerV.IsMovementDelayed) return;
 
-		if (PlayerV.InputDir.X != 0)
+		if (PlayerV.InputDir.X != 0 || PlayerV.IsAutoRunning)
 		{
 			EmitSwitchState("RunState");
 		}

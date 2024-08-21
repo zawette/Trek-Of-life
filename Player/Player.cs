@@ -5,8 +5,13 @@ using System;
 namespace Player;
 public partial class Player : CharacterBody2D
 {
-	[Export]
-	public PlayerMovementData MovementData;
+	[Export] public PlayerMovementData MovementData;
+	[Export] public bool IsAutoRunning;
+	[Export] public Vector2 AutoRunDirection;
+	[Export] public float StartDelayTime = 7.0f;
+	private Timer _startDelayTimer;
+	public bool IsMovementDelayed; // Flag to delay movement
+
 	public Vector2 InputDir = Vector2.Zero;
 	public Timer CoyoteJumpTimer;
 
@@ -21,7 +26,8 @@ public partial class Player : CharacterBody2D
 	private CharacterBody2D _characterBody2D;
 	private Node2D _playerSprite;
 
-	public override void _Ready()
+
+    public override void _Ready()
 	{
 		_playerSprite = GetNode<Node2D>("PlayerSprite");
 		CoyoteJumpTimer = GetNode<Timer>("CoyoteJumpTimer");
@@ -32,6 +38,14 @@ public partial class Player : CharacterBody2D
 		LegsSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Legs");
 		_bodySprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body");
 		_headSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Head");
+        _startDelayTimer = new Timer
+        {
+            OneShot = true,
+            WaitTime = StartDelayTime,
+            Autostart = true
+        };
+        _startDelayTimer.Timeout += OnStartDelayTimeout;
+		AddChild(_startDelayTimer);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -75,6 +89,11 @@ public partial class Player : CharacterBody2D
 			var normal = GetFloorNormal();
 			_playerSprite.Rotation = normal.Angle() + Mathf.DegToRad(90);
 		}
+	}
+
+	private void OnStartDelayTimeout()
+	{
+		IsMovementDelayed = false;
 	}
 
 	public bool IsPlayerJumping() => Velocity.Y < 0;

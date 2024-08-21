@@ -42,7 +42,9 @@ public partial class RunState : BasePlayerState
 
 	private void HandleXMovements(double delta)
 	{
-		PlayerV.Velocity = PlayerV.Velocity with { X = (float)Mathf.MoveToward(PlayerV.Velocity.X, PlayerV.MovementData.Speed * PlayerV.InputDir.X, PlayerV.MovementData.Acceleration * delta) };
+		var direction = PlayerV.IsAutoRunning ? PlayerV.AutoRunDirection.X : PlayerV.InputDir.X;
+
+		PlayerV.Velocity = PlayerV.Velocity with { X = (float)Mathf.MoveToward(PlayerV.Velocity.X, PlayerV.MovementData.Speed * direction, PlayerV.MovementData.Acceleration * delta) };
 	}
 
 

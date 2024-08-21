@@ -11,7 +11,7 @@ public partial class JumpState : BasePlayerState
 		base.OnEnter(message);
 		PlayerV.LegsAnimation.Play("Jump");
 
-		if (message.ContainsKey(playerMsgKeys.wallJump.ToString()))
+		if (message.ContainsKey(playerMsgKeys.wallJump.ToString())) //MAybe move to a separate walljump state
 		{
 			PlayerV.Velocity = PlayerV.Velocity with { Y = PlayerV.MovementData.WallJumpYPower, X = PlayerV.MovementData.WallJumpXPower * PlayerV.GetWallNormal().X };
 			return;
@@ -26,7 +26,7 @@ public partial class JumpState : BasePlayerState
 
 		if (PlayerV.IsOnFloor())
 		{
-			if (PlayerV.InputDir.X != 0) EmitSwitchState("RunState");
+			if (PlayerV.InputDir.X != 0 || PlayerV.IsAutoRunning) EmitSwitchState("RunState");
 			else EmitSwitchState("IdleState");
 		}
 
@@ -41,9 +41,10 @@ public partial class JumpState : BasePlayerState
 
 	private void HandleXAirMovements(double delta)
 	{
-		if (PlayerV.InputDir.X != 0)
+		if (PlayerV.InputDir.X != 0 || PlayerV.IsAutoRunning)
 		{
-			PlayerV.Velocity = PlayerV.Velocity with { X = (float)Mathf.MoveToward(PlayerV.Velocity.X, PlayerV.MovementData.Speed * PlayerV.InputDir.X, PlayerV.MovementData.AirAcceleration * delta) };
+			var direction = PlayerV.IsAutoRunning ? PlayerV.AutoRunDirection.X : PlayerV.InputDir.X;
+			PlayerV.Velocity = PlayerV.Velocity with { X = (float)Mathf.MoveToward(PlayerV.Velocity.X, PlayerV.MovementData.Speed * direction, PlayerV.MovementData.AirAcceleration * delta) };
 		}
 	}
 	private void ApplyAirResistance(double delta)
