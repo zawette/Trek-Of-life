@@ -6,8 +6,8 @@ using System.Linq;
 namespace Enemies.Tfa7a;
 public partial class Tfa7a : CharacterBody2D
 {
-	[Export] public float Speed = 10.0f;
-	[Export] public int StateWaitTime = 5;
+	[Export] public float Speed;
+	[Export] public int StateWaitTime;
 	[Export] public Node PatrolPointsNode;
 	public List<Marker2D> patrolPointsList;
 	public int currentPointId;
@@ -37,9 +37,5 @@ public partial class Tfa7a : CharacterBody2D
 		if (!IsOnFloor())
 			Velocity = Velocity with { Y = Velocity.Y +gravity * (float)delta };
 
-		//var direction = Vector2.Left;
-
-		//Velocity = Velocity with { X = direction.X * Speed };
-		//MoveAndSlide();
 	}
 }
