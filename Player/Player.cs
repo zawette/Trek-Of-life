@@ -10,7 +10,7 @@ public partial class Player : CharacterBody2D
 	[Export] public Vector2 AutoRunDirection;
 	[Export] public float StartDelayTime = 7.0f;
 	private Timer _startDelayTimer;
-	public bool IsMovementDelayed; // Flag to delay movement
+	public bool IsMovementDelayed=true; // Flag to delay movement
 
 	public Vector2 InputDir = Vector2.Zero;
 	public Timer CoyoteJumpTimer;

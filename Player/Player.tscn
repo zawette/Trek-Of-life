@@ -432,8 +432,6 @@ position = Vector2(0, 10)
 collision_layer = 2
 script = ExtResource("1_dd3w2")
 MovementData = ExtResource("2_moxxj")
-IsAutoRunning = null
-AutoRunDirection = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, -13.5)
@@ -465,10 +463,10 @@ position = Vector2(23.3333, 10)
 position = Vector2(23.333, -7.341)
 
 [node name="LegsAnimation" type="AnimationPlayer" parent="."]
-speed_scale = 1.5
 libraries = {
 "": SubResource("AnimationLibrary_uig7p")
 }
+speed_scale = 1.5
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(1, -21)
