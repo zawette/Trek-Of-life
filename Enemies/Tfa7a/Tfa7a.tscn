@@ -84,7 +84,6 @@ size = Vector2(88.8889, 68.8889)
 [node name="Tfa7a" type="CharacterBody2D"]
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_5s6g6")
-Speed = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -4)

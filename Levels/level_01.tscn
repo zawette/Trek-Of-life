@@ -178,17 +178,19 @@ sources/0 = SubResource("TileSetAtlasSource_wloqm")
 [node name="Level_01" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_snj5x")]
+position = Vector2(198, 2)
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2(0, 10)
 scale = Vector2(0.218312, 0.2)
 tile_set = SubResource("TileSet_srq4d")
 format = 2
-layer_0/tile_data = PackedInt32Array(65533, 0, 0, 65534, 65536, 0, 65535, 0, 0, 0, 65536, 0, 1, 0, 0, 2, 65536, 0, 3, 0, 0, 4, 65536, 0, 5, 0, 0, 6, 65536, 0, 7, 0, 0, 8, 65536, 0, 9, 0, 0, 10, 65536, 0, 11, 0, 0, 12, 65536, 0, 13, 0, 0, 14, 65536, 0, 15, 0, 0, 16, 65536, 0, 17, 0, 0, 18, 65536, 0, 19, 0, 0, 20, 65536, 0, 21, 0, 0, 22, 65536, 0, 23, 0, 0, 24, 65536, 0, 25, 0, 0, 26, 65536, 0, 27, 0, 0, 28, 65536, 0, 29, 0, 0, 30, 65536, 0, 31, 0, 0, 32, 65536, 0, 33, 0, 0, 34, 65536, 0, 35, 0, 0, 36, 65536, 0)
+layer_0/tile_data = PackedInt32Array(65533, 0, 0, 65534, 65536, 0, 65535, 0, 0, 0, 65536, 0, 1, 0, 0, 2, 65536, 0, 3, 0, 0, 4, 65536, 0, 5, 0, 0, 6, 65536, 0, 7, 0, 0, 8, 65536, 0, 9, 0, 0, 10, 65536, 0, 11, 0, 0, 12, 65536, 0, 13, 0, 0, 14, 65536, 0, 15, 0, 0, 16, 65536, 0, 17, 0, 0, 18, 65536, 0, 19, 0, 0, 20, 65536, 0, 21, 0, 0, 22, 65536, 0, 23, 0, 0, 24, 65536, 0, 25, 0, 0, 26, 65536, 0, 27, 0, 0, 28, 65536, 0, 29, 0, 0, 30, 65536, 0, 31, 0, 0, 32, 65536, 0, 33, 0, 0, 34, 65536, 0, 35, 0, 0, 36, 65536, 0, -131033, 0, 0, -131032, 65536, 0, -131031, 0, 0, -131030, 65536, 0, -131029, 0, 0, -131028, 65536, 0, -131027, 0, 0, -131026, 65536, 0, -131025, 0, 0, -131024, 65536, 0, -131023, 0, 0, -131022, 65536, 0, -131021, 0, 0, -131020, 65536, 0, -131019, 0, 0, -131018, 65536, 0, -131017, 0, 0, -131016, 65536, 0, -131015, 0, 0, -131014, 65536, 0, -131013, 0, 0, -131012, 65536, 0, -131011, 0, 0, -131010, 65536, 0)
 
 [node name="Tfa7a" parent="." node_paths=PackedStringArray("PatrolPointsNode") instance=ExtResource("3_g8hrl")]
 position = Vector2(103, 4)
 Speed = 400.0
+StateWaitTime = 5
 PatrolPointsNode = NodePath("PatrolPoints")
 
 [node name="PatrolPoints" type="Node" parent="Tfa7a"]
@@ -198,3 +200,17 @@ position = Vector2(124, 9)
 
 [node name="P2" type="Marker2D" parent="Tfa7a/PatrolPoints"]
 position = Vector2(62, 9)
+
+[node name="Tfa7a2" parent="." node_paths=PackedStringArray("PatrolPointsNode") instance=ExtResource("3_g8hrl")]
+position = Vector2(188, 1)
+Speed = 400.0
+StateWaitTime = 3
+PatrolPointsNode = NodePath("PatrolPoints")
+
+[node name="PatrolPoints" type="Node" parent="Tfa7a2"]
+
+[node name="P1" type="Marker2D" parent="Tfa7a2/PatrolPoints"]
+position = Vector2(146, 0)
+
+[node name="P2" type="Marker2D" parent="Tfa7a2/PatrolPoints"]
+position = Vector2(214, 1)
