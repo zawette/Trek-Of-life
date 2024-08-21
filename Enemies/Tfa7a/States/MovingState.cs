@@ -25,7 +25,7 @@ public partial class MovingState : BaseTfa7aState
 
 		Tfa7aV.Velocity = Tfa7aV.Velocity with { X = (float)(direction.X * Tfa7aV.Speed * delta) };
 
-		if(Tfa7aV.GlobalPosition.DistanceTo(currentTargetPosition) <= 1){
+		if(Math.Abs(Tfa7aV.GlobalPosition.X - currentTargetPosition.X) <= 1){
 			Tfa7aV.currentPointId = (Tfa7aV.currentPointId + 1) % Tfa7aV.patrolPointsList.Count;
 			EmitSwitchState("IdleState");
 		}
