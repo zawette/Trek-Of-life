@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://boeeicl1qu58l"]
+[gd_scene load_steps=23 format=3 uid="uid://boeeicl1qu58l"]
 
 [ext_resource type="Script" path="res://Enemies/Tfa7a/Tfa7a.cs" id="1_5s6g6"]
 [ext_resource type="Texture2D" uid="uid://ckjxnw6uin1yw" path="res://Enemies/Tfa7a/sprites/Idle/appuruIddleFix1.png" id="2_qyvch"]
@@ -81,8 +81,12 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ruet4"]
 size = Vector2(88.8889, 68.8889)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aohk1"]
+size = Vector2(8, 6)
+
 [node name="Tfa7a" type="CharacterBody2D"]
 scale = Vector2(0.5, 0.5)
+collision_layer = 4
 script = ExtResource("1_5s6g6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -95,7 +99,6 @@ animation = &"Idle"
 position = Vector2(5.96046e-08, -2.9)
 scale = Vector2(0.09, 0.09)
 shape = SubResource("RectangleShape2D_ruet4")
-debug_color = Color(0.917647, 0.0470588, 0.690196, 0.419608)
 
 [node name="DebugState" type="Label" parent="."]
 offset_left = -6.0
@@ -118,3 +121,12 @@ script = ExtResource("19_i61mk")
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_aohk1")
+debug_color = Color(0.901961, 0.160784, 0.65098, 0.419608)

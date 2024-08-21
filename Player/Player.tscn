@@ -429,6 +429,7 @@ _data = {
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(0, 10)
+collision_layer = 2
 script = ExtResource("1_dd3w2")
 MovementData = ExtResource("2_moxxj")
 
