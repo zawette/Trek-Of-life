@@ -44,4 +44,5 @@ position = Vector2(50, -104)
 shape = SubResource("RectangleShape2D_er86v")
 
 [node name="Player" parent="." instance=ExtResource("1_mpmjl")]
-position = Vector2(-1, -19)
+position = Vector2(0, -20)
+StartDelayTime = 0.1
