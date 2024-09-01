@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dm35g80d5j4fq"]
 
-[ext_resource type="PackedScene" uid="uid://bhysvs188vnlj" path="res://Player/Player.tscn" id="1_snj5x"]
 [ext_resource type="Texture2D" uid="uid://ca08kcma4y5ok" path="res://Resources/Sidescroller Shooter - Central City/Assets/Tiles.png" id="2_mwqw6"]
+[ext_resource type="PackedScene" uid="uid://hi7nmix6fq2" path="res://Player/PlayerV2.tscn" id="3_canf4"]
 [ext_resource type="PackedScene" uid="uid://boeeicl1qu58l" path="res://Enemies/Tfa7a/Tfa7a.tscn" id="3_g8hrl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wloqm"]
@@ -69,10 +69,6 @@ sources/0 = SubResource("TileSetAtlasSource_wloqm")
 
 [node name="Level_01" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource("1_snj5x")]
-position = Vector2(1, 23)
-StartDelayTime = 0.1
-
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2(0, 14)
 scale = Vector2(0.218312, 0.2)
@@ -110,3 +106,7 @@ position = Vector2(146, 0)
 
 [node name="P2" type="Marker2D" parent="Enemies/Tfa7a2/PatrolPoints"]
 position = Vector2(214, 1)
+
+[node name="Player" parent="." instance=ExtResource("3_canf4")]
+position = Vector2(-4, 23)
+StartDelayTime = 0.1

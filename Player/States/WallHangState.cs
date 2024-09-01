@@ -9,6 +9,9 @@ public partial class WallHangState : BasePlayerState
     public override void OnEnter(Dictionary<string, Variant> message = null)
     {
         base.OnEnter(message);
+		PlayerV.Direction = PlayerV.GetWallNormal();
+        PlayerV.LegsSprite.FlipH = PlayerV.Direction.X < 0;
+        PlayerV.LegsAnimation.Play("WallHang");
         PlayerV.Velocity = PlayerV.Velocity with { Y = 0 };
 
     }

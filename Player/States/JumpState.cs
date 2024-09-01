@@ -35,7 +35,7 @@ public partial class JumpState : BasePlayerState
 		HandleXAirMovements(delta);
 		ApplyAirResistance(delta);
 		ApplyLowJump(delta);
-		HandleWallJump();
+		HandleWallHang();
 		PlayerV.MoveAndSlide();
 	}
 
@@ -43,7 +43,7 @@ public partial class JumpState : BasePlayerState
 	{
 		if (PlayerV.InputDir.X != 0 || PlayerV.IsAutoRunning)
 		{
-			var direction = PlayerV.IsAutoRunning ? PlayerV.AutoRunDirection.X : PlayerV.InputDir.X;
+			var direction = PlayerV.IsAutoRunning ? PlayerV.Direction.X : PlayerV.InputDir.X;
 			PlayerV.Velocity = PlayerV.Velocity with { X = (float)Mathf.MoveToward(PlayerV.Velocity.X, PlayerV.MovementData.Speed * direction, PlayerV.MovementData.AirAcceleration * delta) };
 		}
 	}
@@ -64,8 +64,7 @@ public partial class JumpState : BasePlayerState
 		}
 	}
 
-	// move to wall hang state
-	private void HandleWallJump()
+	private void HandleWallHang()
 	{
 		if (PlayerV.IsOnWallOnly())
 		{

@@ -15,7 +15,13 @@ public partial class RunState : BasePlayerState
 	public override void OnPhysicsUpdate(double delta)
 	{
 		base.OnPhysicsUpdate(delta);
-		PlayerV.LegsSprite.FlipH = PlayerV.InputDir.X < 0;
+
+		if (PlayerV.InputDir.X != 0)
+		{
+			PlayerV.Direction = PlayerV.InputDir;
+		}
+
+		PlayerV.LegsSprite.FlipH = PlayerV.Direction.X < 0;
 
 		if (PlayerV.Velocity.X == 0)
 		{
@@ -42,7 +48,7 @@ public partial class RunState : BasePlayerState
 
 	private void HandleXMovements(double delta)
 	{
-		var direction = PlayerV.IsAutoRunning ? PlayerV.AutoRunDirection.X : PlayerV.InputDir.X;
+		var direction = PlayerV.IsAutoRunning ? PlayerV.Direction.X : PlayerV.InputDir.X;
 
 		PlayerV.Velocity = PlayerV.Velocity with { X = (float)Mathf.MoveToward(PlayerV.Velocity.X, PlayerV.MovementData.Speed * direction, PlayerV.MovementData.Acceleration * delta) };
 	}

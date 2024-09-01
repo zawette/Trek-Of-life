@@ -73,7 +73,6 @@ sources/0 = SubResource("TileSetAtlasSource_wloqm")
 [node name="Player" parent="." instance=ExtResource("1_uvtw3")]
 position = Vector2(-5, -97.6)
 IsAutoRunning = true
-AutoRunDirection = Vector2(1, 0)
 
 [node name="Music" type="AudioStreamPlayer2D" parent="Player"]
 position = Vector2(5, 97)

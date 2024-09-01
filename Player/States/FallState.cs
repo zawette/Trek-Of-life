@@ -33,7 +33,7 @@ public partial class FallState : BasePlayerState
 	{
 		if (PlayerV.InputDir.X != 0 || PlayerV.IsAutoRunning)
 		{
-			var direction = PlayerV.IsAutoRunning ? PlayerV.AutoRunDirection.X : PlayerV.InputDir.X;
+			var direction = PlayerV.IsAutoRunning ? PlayerV.Direction.X : PlayerV.InputDir.X;
 			PlayerV.Velocity = PlayerV.Velocity with { X = (float)Mathf.MoveToward(PlayerV.Velocity.X, PlayerV.MovementData.Speed * direction, PlayerV.MovementData.AirAcceleration * delta) };
 		}
 	}

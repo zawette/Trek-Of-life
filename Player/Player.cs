@@ -7,7 +7,7 @@ public partial class Player : CharacterBody2D
 {
 	[Export] public PlayerMovementData MovementData;
 	[Export] public bool IsAutoRunning;
-	[Export] public Vector2 AutoRunDirection;
+	[Export] public Vector2 Direction;
 	[Export] public float StartDelayTime = 7.0f;
 	private Timer _startDelayTimer;
 	public bool IsMovementDelayed=true; // Flag to delay movement
@@ -18,12 +18,11 @@ public partial class Player : CharacterBody2D
 	public float Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 	public AnimationPlayer LegsAnimation;
 	public AnimatedSprite2D LegsSprite;
-	private AnimatedSprite2D _bodySprite;
-	private AnimatedSprite2D _frontArmSprite;
-	private Marker2D _handRight;
-    private Marker2D _handLeft;
-    private AnimatedSprite2D _headSprite;
-	private CharacterBody2D _characterBody2D;
+	//private AnimatedSprite2D _bodySprite;
+	//private AnimatedSprite2D _frontArmSprite;
+	//private Marker2D _handRight;
+    //private Marker2D _handLeft;
+    //private AnimatedSprite2D _headSprite;
 	private Node2D _playerSprite;
 
 
@@ -32,12 +31,12 @@ public partial class Player : CharacterBody2D
 		_playerSprite = GetNode<Node2D>("PlayerSprite");
 		CoyoteJumpTimer = GetNode<Timer>("CoyoteJumpTimer");
 		LegsAnimation = GetNode<AnimationPlayer>("LegsAnimation");
-		_frontArmSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Front_Arm");
-		_handRight = GetNode<Marker2D>("PlayerSprite/Body/Front_Arm/HandRight");
-		_handLeft = GetNode<Marker2D>("PlayerSprite/Body/Front_Arm/HandLeft");
+		//_frontArmSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Front_Arm");
+		//_handRight = GetNode<Marker2D>("PlayerSprite/Body/Front_Arm/HandRight");
+		//_handLeft = GetNode<Marker2D>("PlayerSprite/Body/Front_Arm/HandLeft");
 		LegsSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Legs");
-		_bodySprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body");
-		_headSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Head");
+		//_bodySprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body");
+		//_headSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Head");
         _startDelayTimer = new Timer
         {
             OneShot = true,
@@ -52,11 +51,11 @@ public partial class Player : CharacterBody2D
 	{
 		InputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 		AddGravity(delta);
-		HandleAim();
+		//HandleAim();
 		AlignCharToSlope();
 	}
 
-	private void HandleAim()
+	/*private void HandleAim()
 	{
 		var globalMousePosition = GetGlobalMousePosition();
 		var direction = (globalMousePosition - _handRight.GlobalPosition).Normalized();
@@ -75,6 +74,7 @@ public partial class Player : CharacterBody2D
 		}
 
 	}
+	*/
 
 	private void AddGravity(double delta)
 	{
