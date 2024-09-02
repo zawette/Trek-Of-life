@@ -1,10 +1,14 @@
-[gd_scene load_steps=40 format=3 uid="uid://hi7nmix6fq2"]
+[gd_scene load_steps=46 format=3 uid="uid://hi7nmix6fq2"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_7xt2t"]
 [ext_resource type="Resource" uid="uid://cm8dgvmkccnmr" path="res://Player/Resources/PlayerMovementData/DefaultPlayerMovementData.tres" id="2_275w5"]
 [ext_resource type="Texture2D" uid="uid://bolo5liae2wc6" path="res://Player/sprites/knia/Fall1.png" id="3_fbpqa"]
+[ext_resource type="Texture2D" uid="uid://wtcr1wyp57xi" path="res://Player/sprites/knia/Dash1.png" id="3_j5s7w"]
 [ext_resource type="Texture2D" uid="uid://csefh7vhvgpkl" path="res://Player/sprites/knia/Fall2.png" id="4_80mnn"]
+[ext_resource type="Texture2D" uid="uid://q73wkyk8fwlx" path="res://Player/sprites/knia/Dash2.png" id="4_gdxwy"]
+[ext_resource type="Texture2D" uid="uid://dx0ge068u1x6i" path="res://Player/sprites/knia/Dash3.png" id="5_1ab2g"]
 [ext_resource type="Texture2D" uid="uid://jt3sl2lhd0c5" path="res://Player/sprites/knia/Fall3.png" id="5_pk2qj"]
+[ext_resource type="Texture2D" uid="uid://duiqw3uas0nnw" path="res://Player/sprites/knia/Dash4.png" id="6_e0vd1"]
 [ext_resource type="Texture2D" uid="uid://duryxge6jmfy2" path="res://Player/sprites/knia/Fall4.png" id="6_kaxpm"]
 [ext_resource type="Texture2D" uid="uid://ccox37488jhdh" path="res://Player/sprites/knia/Idle1.png" id="7_ni7ll"]
 [ext_resource type="Texture2D" uid="uid://cso76tj4u7mu0" path="res://Player/sprites/knia/Idle2.png" id="8_7o2ur"]
@@ -24,6 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://buwxjyk2dkijb" path="res://Player/sprites/knia/Run8.png" id="22_hvjj0"]
 [ext_resource type="Texture2D" uid="uid://b1oj5xu2efm16" path="res://Player/sprites/knia/Run9.png" id="23_xsodx"]
 [ext_resource type="Texture2D" uid="uid://barmsjcq0opc8" path="res://Player/sprites/knia/WallHang.png" id="24_gv0yp"]
+[ext_resource type="Script" path="res://Player/States/DashState.cs" id="31_eihiq"]
 [ext_resource type="Script" path="res://Player/States/PlayerStateMachine.cs" id="57_6igmn"]
 [ext_resource type="Script" path="res://Player/States/IdleState.cs" id="58_631wv"]
 [ext_resource type="Script" path="res://Player/States/RunState.cs" id="59_7y0f5"]
@@ -36,6 +41,23 @@ size = Vector2(2, 4)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xda01"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_j5s7w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gdxwy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_1ab2g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_e0vd1")
+}],
+"loop": true,
+"name": &"Dash",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("3_fbpqa")
@@ -294,8 +316,36 @@ tracks/1/keys = {
 "values": [&"WallHang"]
 }
 
+[sub_resource type="Animation" id="Animation_4gk3h"]
+resource_name = "Dash"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite/Legs:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Dash"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerSprite/Legs:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uig7p"]
 _data = {
+"Dash": SubResource("Animation_4gk3h"),
 "Fall": SubResource("Animation_k5fsx"),
 "Idle": SubResource("Animation_eajrp"),
 "Jump": SubResource("Animation_n20up"),
@@ -361,6 +411,9 @@ script = ExtResource("61_l3e1j")
 
 [node name="FallState" type="Node" parent="PlayerStateMachine"]
 script = ExtResource("62_x8xjv")
+
+[node name="DashState" type="Node" parent="PlayerStateMachine"]
+script = ExtResource("31_eihiq")
 
 [node name="DebugState" type="Label" parent="."]
 offset_left = -1.0

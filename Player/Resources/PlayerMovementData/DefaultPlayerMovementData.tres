@@ -15,3 +15,5 @@ GravityScale = 0.3
 WallSlideAcceleration = 8.0
 WallJumpYPower = -50.0
 WallJumpXPower = 50.0
+DashPower = 100.0
+DashDuration = 0.2

@@ -24,11 +24,14 @@ public partial class IdleState : BasePlayerState
 			EmitSwitchState("RunState");
 		}
 
+		if(Input.IsActionJustPressed("dash")){
+			EmitSwitchState("DashState");
+		}
+
 		if ((PlayerV.IsOnFloor() || PlayerV.CoyoteJumpTimer.TimeLeft > 0) && Input.IsActionJustPressed("jump"))
 		{
 			EmitSwitchState("JumpState");
 		}
-
 		else if (!PlayerV.IsOnFloor())
 		{
 			EmitSwitchState("FallState");
