@@ -4,8 +4,7 @@ using Godot.Collections;
 
 namespace Player.States;
 
-//TODO: Player should be able to dash only once mid air
-//TODO: jump mid dash
+//TODO: add delay btw dashes where you can't dash
 public partial class DashState : BasePlayerState
 {
 
@@ -27,6 +26,11 @@ public partial class DashState : BasePlayerState
 	public override void OnPhysicsUpdate(double delta)
 	{
 		base.OnPhysicsUpdate(delta);
+
+		if ((PlayerV.IsOnFloor() || PlayerV.CoyoteJumpTimer.TimeLeft > 0) && Input.IsActionJustPressed("jump"))
+		{
+			EmitSwitchState("JumpState");
+		}
 
 		if (dashTimer != null && dashTimer.TimeLeft <= 0)
 		{
