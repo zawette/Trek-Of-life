@@ -5,6 +5,7 @@ using Godot.Collections;
 namespace Player.States;
 
 //TODO: Player should be able to dash only once mid air
+//TODO: jump mid dash
 public partial class DashState : BasePlayerState
 {
 
