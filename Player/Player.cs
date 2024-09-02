@@ -23,13 +23,13 @@ public partial class Player : CharacterBody2D
 	//private Marker2D _handRight;
     //private Marker2D _handLeft;
     //private AnimatedSprite2D _headSprite;
-	private Node2D _playerSprite;
+	public Node2D PlayerSprite;
 	private bool _isGravityDisabled;
 
 
     public override void _Ready()
 	{
-		_playerSprite = GetNode<Node2D>("PlayerSprite");
+		PlayerSprite = GetNode<Node2D>("PlayerSprite");
 		CoyoteJumpTimer = GetNode<Timer>("CoyoteJumpTimer");
 		LegsAnimation = GetNode<AnimationPlayer>("LegsAnimation");
 		//_frontArmSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Front_Arm");
@@ -88,7 +88,7 @@ public partial class Player : CharacterBody2D
 		if (IsOnFloor())
 		{
 			var normal = GetFloorNormal();
-			_playerSprite.Rotation = normal.Angle() + Mathf.DegToRad(90);
+			PlayerSprite.Rotation = normal.Angle() + Mathf.DegToRad(90);
 		}
 	}
 

@@ -109,5 +109,4 @@ position = Vector2(214, 1)
 
 [node name="Player" parent="." instance=ExtResource("3_canf4")]
 position = Vector2(-3, 22)
-Direction = Vector2(1, 0)
 StartDelayTime = 0.1
