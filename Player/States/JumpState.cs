@@ -24,6 +24,11 @@ public partial class JumpState : BasePlayerState
 	{
 		base.OnPhysicsUpdate(delta);
 
+		if(Input.IsActionJustPressed("dash")){
+			EmitSwitchState("DashState");
+			return;
+		}
+
 		if (PlayerV.IsOnFloor())
 		{
 			if (PlayerV.InputDir.X != 0 || PlayerV.IsAutoRunning) EmitSwitchState("RunState");

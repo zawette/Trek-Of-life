@@ -17,6 +17,10 @@ public partial class FallState : BasePlayerState
 	{
 		base.OnPhysicsUpdate(delta);
 
+		if(Input.IsActionJustPressed("dash")){
+			EmitSwitchState("DashState");
+		}
+
 		if (PlayerV.IsOnFloor())
 		{
 			if (PlayerV.InputDir.X != 0 || PlayerV.IsAutoRunning) EmitSwitchState("RunState");

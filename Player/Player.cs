@@ -24,6 +24,7 @@ public partial class Player : CharacterBody2D
     //private Marker2D _handLeft;
     //private AnimatedSprite2D _headSprite;
 	private Node2D _playerSprite;
+	private bool _isGravityDisabled;
 
 
     public override void _Ready()
@@ -78,7 +79,7 @@ public partial class Player : CharacterBody2D
 
 	private void AddGravity(double delta)
 	{
-		if (!IsOnFloor())
+		if (!IsOnFloor() && !_isGravityDisabled)
 			Velocity = Velocity with { Y = Velocity.Y + Gravity * MovementData.GravityScale * (float)delta };
 	}
 
@@ -98,4 +99,6 @@ public partial class Player : CharacterBody2D
 
 	public bool IsPlayerJumping() => Velocity.Y < 0;
 	public bool IsPlayerFalling() => !IsOnFloor() && Velocity.Y >= 0;
+	public void DisableGravity() => _isGravityDisabled = true;
+	public void EnableGravity() => _isGravityDisabled = false;
 }
