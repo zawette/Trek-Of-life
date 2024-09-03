@@ -24,7 +24,7 @@ public partial class IdleState : BasePlayerState
 			EmitSwitchState("RunState");
 		}
 
-		if(Input.IsActionJustPressed("dash")){
+		if(PlayerV.CanDash && Input.IsActionJustPressed("dash")){
 			EmitSwitchState("DashState");
 		}
 

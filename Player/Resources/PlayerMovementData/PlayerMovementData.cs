@@ -15,7 +15,8 @@ public partial class PlayerMovementData : Resource
 	[Export] public float WallSlideAcceleration  { get; set; } = 8;
 	[Export] public float WallJumpYPower   { get; set; } = -50;
 	[Export] public float WallJumpXPower   { get; set; } = 50;
-	[Export] public float DashPower   { get; set; } = 100;
-    [Export] public double DashDuration { get; set; } = 0.1;
+	[Export] public float DashPower   { get; set; } = 75;
+    [Export] public double DashDuration { get; set; } = 0.2;
+    [Export] public double DashDelay { get; set; } = 0.4;
 
 }

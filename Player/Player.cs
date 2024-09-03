@@ -9,8 +9,9 @@ public partial class Player : CharacterBody2D
 	[Export] public bool IsAutoRunning;
 	[Export] public Vector2 Direction;
 	[Export] public float StartDelayTime = 7.0f;
-	private Timer _startDelayTimer;
-	public bool IsMovementDelayed=true; // Flag to delay movement
+	[Export] private bool _canDash = true;
+	public bool CanDash { get => _canDash; }
+	public bool IsMovementDelayed = true; // Flag to delay movement
 
 	public Vector2 InputDir = Vector2.Zero;
 	public Timer CoyoteJumpTimer;
@@ -21,13 +22,14 @@ public partial class Player : CharacterBody2D
 	//private AnimatedSprite2D _bodySprite;
 	//private AnimatedSprite2D _frontArmSprite;
 	//private Marker2D _handRight;
-    //private Marker2D _handLeft;
-    //private AnimatedSprite2D _headSprite;
+	//private Marker2D _handLeft;
+	//private AnimatedSprite2D _headSprite;
 	public Node2D PlayerSprite;
 	private bool _isGravityDisabled;
 
+	private Timer _startDelayTimer;
 
-    public override void _Ready()
+	public override void _Ready()
 	{
 		PlayerSprite = GetNode<Node2D>("PlayerSprite");
 		CoyoteJumpTimer = GetNode<Timer>("CoyoteJumpTimer");
@@ -38,13 +40,13 @@ public partial class Player : CharacterBody2D
 		LegsSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Legs");
 		//_bodySprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body");
 		//_headSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Head");
-        _startDelayTimer = new Timer
-        {
-            OneShot = true,
-            WaitTime = StartDelayTime,
-            Autostart = true
-        };
-        _startDelayTimer.Timeout += OnStartDelayTimeout;
+		_startDelayTimer = new Timer
+		{
+			OneShot = true,
+			WaitTime = StartDelayTime,
+			Autostart = true
+		};
+		_startDelayTimer.Timeout += OnStartDelayTimeout;
 		AddChild(_startDelayTimer);
 	}
 
@@ -101,4 +103,6 @@ public partial class Player : CharacterBody2D
 	public bool IsPlayerFalling() => !IsOnFloor() && Velocity.Y >= 0;
 	public void DisableGravity() => _isGravityDisabled = true;
 	public void EnableGravity() => _isGravityDisabled = false;
+	public void DisableDash() => _canDash = false;
+	public void EnableDash() => _canDash = true;
 }

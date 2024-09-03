@@ -4,7 +4,7 @@ using Godot.Collections;
 
 namespace Player.States;
 
-//TODO: add delay btw dashes where you can't dash
+//Todo: Add an effect to let the player know that they can dash again once dashDelay is over
 public partial class DashState : BasePlayerState
 {
 
@@ -37,7 +37,6 @@ public partial class DashState : BasePlayerState
 			PlayerV.Velocity = new() { X = initialVelocity.X, Y = 0 };
 			if (PlayerV.IsOnFloor()) EmitSwitchState("RunState");
 			else EmitSwitchState("FallState");
-			return;
 		}
 
 		ghostTimer += (float)delta;
@@ -54,6 +53,11 @@ public partial class DashState : BasePlayerState
 	{
 		base.OnExit();
 		PlayerV.EnableGravity();
+		PlayerV.DisableDash();
+		GetTree()
+		.CreateTimer(PlayerV.MovementData.DashDelay)
+		.Connect("timeout", Callable.From(() =>PlayerV.EnableDash()));
+
 	}
 
 

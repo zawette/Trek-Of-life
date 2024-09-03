@@ -17,3 +17,4 @@ WallJumpYPower = -50.0
 WallJumpXPower = 50.0
 DashPower = 75.0
 DashDuration = 0.2
+DashDelay = 0.4

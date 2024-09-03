@@ -17,7 +17,7 @@ public partial class FallState : BasePlayerState
 	{
 		base.OnPhysicsUpdate(delta);
 
-		if(Input.IsActionJustPressed("dash")){
+		if(PlayerV.CanDash && Input.IsActionJustPressed("dash")){
 			EmitSwitchState("DashState");
 		}
 
