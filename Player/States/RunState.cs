@@ -9,7 +9,7 @@ public partial class RunState : BasePlayerState
 	public override void OnEnter(Dictionary<string, Variant> message = null)
 	{
 		base.OnEnter(message);
-		PlayerV.LegsAnimation.Play("RunForward");
+		PlayerV.PlayRunAnimation();
 	}
 
 	public override void OnPhysicsUpdate(double delta)
@@ -21,7 +21,9 @@ public partial class RunState : BasePlayerState
 			PlayerV.Direction = PlayerV.InputDir;
 		}
 
-		PlayerV.LegsSprite.FlipH = PlayerV.Direction.X < 0;
+		PlayerV.PlayerSprite.Scale = PlayerV.PlayerSprite.Scale with { X = Math.Abs(PlayerV.PlayerSprite.Scale.X) * PlayerV.Direction.X};		
+
+		
 
 		if (PlayerV.Velocity.X == 0)
 		{

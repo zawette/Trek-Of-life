@@ -10,7 +10,7 @@ public partial class FallState : BasePlayerState
 	public override void OnEnter(Dictionary<string, Variant> message = null)
 	{
 		base.OnEnter(message);
-		PlayerV.LegsAnimation.Play("Fall");
+		PlayerV.PlayFallAnimation();
 	}
 
 	public override void OnPhysicsUpdate(double delta)

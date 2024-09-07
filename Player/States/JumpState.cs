@@ -9,7 +9,7 @@ public partial class JumpState : BasePlayerState
 	public override void OnEnter(Dictionary<string, Variant> message = null)
 	{
 		base.OnEnter(message);
-		PlayerV.LegsAnimation.Play("Jump");
+		PlayerV.PlayJumpAnimation();
 
 		if (message.ContainsKey(playerMsgKeys.wallJump.ToString())) //MAybe move to a separate walljump state
 		{

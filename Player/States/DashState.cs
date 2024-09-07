@@ -17,7 +17,7 @@ public partial class DashState : BasePlayerState
 	{
 		base.OnEnter(message);
 		PlayerV.DisableGravity();
-		PlayerV.LegsAnimation.Play("Dash");
+		PlayerV.PlayDashAnimation();
 		initialVelocity = PlayerV.Velocity;
 		PlayerV.Velocity = new() { X = PlayerV.MovementData.DashPower * PlayerV.Direction.X, Y = 0 };
 		dashTimer = GetTree().CreateTimer(PlayerV.MovementData.DashDuration);

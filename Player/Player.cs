@@ -17,13 +17,11 @@ public partial class Player : CharacterBody2D
 	public Timer CoyoteJumpTimer;
 
 	public float Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
-	public AnimationPlayer LegsAnimation;
-	public AnimatedSprite2D LegsSprite;
-	//private AnimatedSprite2D _bodySprite;
-	//private AnimatedSprite2D _frontArmSprite;
-	//private Marker2D _handRight;
-	//private Marker2D _handLeft;
-	//private AnimatedSprite2D _headSprite;
+	public AnimationPlayer BodyMinusRightHandAnimation;
+
+    public AnimationPlayer RightHandAnimation;
+
+    public AnimatedSprite2D LegsSprite;
 	public Node2D PlayerSprite;
 	private bool _isGravityDisabled;
 
@@ -33,13 +31,11 @@ public partial class Player : CharacterBody2D
 	{
 		PlayerSprite = GetNode<Node2D>("PlayerSprite");
 		CoyoteJumpTimer = GetNode<Timer>("CoyoteJumpTimer");
-		LegsAnimation = GetNode<AnimationPlayer>("LegsAnimation");
-		//_frontArmSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Front_Arm");
+		BodyMinusRightHandAnimation = GetNode<AnimationPlayer>("BodyMinusRightHandAnimation");
+		RightHandAnimation = GetNode<AnimationPlayer>("RightHandAnimation");
 		//_handRight = GetNode<Marker2D>("PlayerSprite/Body/Front_Arm/HandRight");
 		//_handLeft = GetNode<Marker2D>("PlayerSprite/Body/Front_Arm/HandLeft");
 		LegsSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Legs");
-		//_bodySprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body");
-		//_headSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Body/Head");
 		_startDelayTimer = new Timer
 		{
 			OneShot = true,
@@ -105,4 +101,36 @@ public partial class Player : CharacterBody2D
 	public void EnableGravity() => _isGravityDisabled = false;
 	public void DisableDash() => _canDash = false;
 	public void EnableDash() => _canDash = true;
+	
+
+
+	public void PlayIdleAnimation(){
+		BodyMinusRightHandAnimation.Play("Idle");
+		RightHandAnimation.Play("Idle");
+	}
+
+	public void PlayJumpAnimation(){
+		BodyMinusRightHandAnimation.Play("Jump");
+		RightHandAnimation.Play("Jump");
+	}
+
+	public void PlayFallAnimation(){
+		BodyMinusRightHandAnimation.Play("Fall");
+		RightHandAnimation.Play("Fall");
+	}
+
+	public void PlayWallHangAnimation(){
+		BodyMinusRightHandAnimation.Play("WallHang");
+		RightHandAnimation.Play("WallHang");
+	}
+
+	public void PlayRunAnimation(){
+		BodyMinusRightHandAnimation.Play("RunForward");
+		RightHandAnimation.Play("RunForward");
+	}
+
+	public void PlayDashAnimation(){
+		BodyMinusRightHandAnimation.Play("Dash");
+		RightHandAnimation.Play("Dash");
+	}
 }

@@ -10,8 +10,9 @@ public partial class WallHangState : BasePlayerState
     {
         base.OnEnter(message);
 		PlayerV.Direction = PlayerV.GetWallNormal();
-        PlayerV.LegsSprite.FlipH = PlayerV.Direction.X < 0;
-        PlayerV.LegsAnimation.Play("WallHang");
+        //PlayerV.LegsSprite.FlipH = PlayerV.Direction.X < 0;
+		PlayerV.PlayerSprite.Scale = PlayerV.PlayerSprite.Scale with { X = Math.Abs(PlayerV.PlayerSprite.Scale.X) * PlayerV.Direction.X};
+        PlayerV.PlayWallHangAnimation();
         PlayerV.Velocity = PlayerV.Velocity with { Y = 0 };
 
     }
