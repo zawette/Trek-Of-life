@@ -56,31 +56,28 @@ public partial class DashState : BasePlayerState
 		PlayerV.DisableDash();
 		GetTree()
 		.CreateTimer(PlayerV.MovementData.DashDelay)
-		.Connect("timeout", Callable.From(() =>PlayerV.EnableDash()));
+		.Connect("timeout", Callable.From(() => PlayerV.EnableDash()));
 
 	}
 
 
 	private void SpawnGhost()
 	{
-		var ghost = new AnimatedSprite2D();
-		ghost.SpriteFrames = PlayerV.LegsSprite.SpriteFrames;
-		ghost.Animation = PlayerV.LegsSprite.Animation;
-		ghost.Frame = PlayerV.LegsSprite.Frame;
-		ghost.Position = PlayerV.LegsSprite.GlobalPosition;
+		var ghost = (Node2D)PlayerV.PlayerSprite.Duplicate();
+
+		ghost.GlobalPosition = PlayerV.PlayerSprite.GlobalPosition;
 		ghost.Scale = PlayerV.PlayerSprite.Scale;
-		ghost.FlipH = PlayerV.LegsSprite.FlipH;
-		ghost.FlipV = PlayerV.LegsSprite.FlipV;
 		ghost.Modulate = new Color(1, 1, 1, 0.5f);
 
 		PlayerV.GetParent().AddChild(ghost);
 
 		var tween = ghost.CreateTween();
 		tween.TweenProperty(ghost, "modulate:a", 0f, 0.5f);
+
 		tween.TweenCallback(Callable.From(() => ghost.QueueFree()));
 		tween.Play();
 	}
 
-	
+
 
 }
