@@ -8,7 +8,10 @@ public partial class StateMachine : Node
 	[Export]
 	public State InitialState;
 	public State CurrentState;
-	public string PreviousStateName;
+
+	public string CurrentStateName { get; private set; }
+
+	public string PreviousStateName { get; private set; }
 	public Dictionary<string, State> States = new();
 
 
@@ -26,6 +29,7 @@ public partial class StateMachine : Node
 		}
 
 		CurrentState = InitialState;
+		CurrentStateName = CurrentState.GetType().Name;
 		CurrentState.OnEnter();
 
 	}
@@ -38,7 +42,7 @@ public partial class StateMachine : Node
 		CurrentState.OnPhysicsUpdate(delta);
 	}
 
-	public void OnSwitchState(string stateName, Godot.Collections.Dictionary<string,Variant> message = null)
+	public void OnSwitchState(string stateName, Godot.Collections.Dictionary<string, Variant> message = null)
 	{
 		var state = States[stateName];
 		if (state is null || state == CurrentState)
@@ -48,6 +52,7 @@ public partial class StateMachine : Node
 		CurrentState.OnExit();
 
 		CurrentState = state;
+		CurrentStateName = CurrentState.GetType().Name;
 		CurrentState.OnEnter(message);
 	}
 }

@@ -32,8 +32,6 @@ public partial class FallState : BasePlayerState
 		ApplyAirResistance(delta);
 		HandleWallJump();
 
-		HandleShooting();
-
 		PlayerV.MoveAndSlide();
 	}
 
@@ -63,15 +61,6 @@ public partial class FallState : BasePlayerState
 			{
 				EmitSwitchState("WallHangState");
 			}
-		}
-	}
-
-
-	private void HandleShooting()
-	{
-		if (Input.IsActionJustPressed("shoot"))
-		{
-			PlayerV.PlayAirShootAnimation();
 		}
 	}
 

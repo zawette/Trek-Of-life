@@ -43,8 +43,6 @@ public partial class JumpState : BasePlayerState
 		ApplyLowJump(delta);
 		HandleWallHang();
 
-		HandleShooting();
-
 		PlayerV.MoveAndSlide();
 	}
 
@@ -84,13 +82,5 @@ public partial class JumpState : BasePlayerState
 		}
 	}
 
-
-	private void HandleShooting()
-	{
-		if (Input.IsActionJustPressed("shoot"))
-		{
-			PlayerV.PlayAirShootAnimation();
-		}
-	}
 
 }

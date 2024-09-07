@@ -1,4 +1,5 @@
 using Godot;
+using Player.States;
 using Player.weapons;
 using System;
 
@@ -24,20 +25,29 @@ public partial class Player : CharacterBody2D
 	public AnimationPlayer RightHandAnimation;
 
 	public AnimatedSprite2D LegsSprite;
+	public PlayerStateMachine PStateMachine;
 	public Node2D PlayerSprite;
+	public AnimatedSprite2D RightHandSprite;
 	private bool _isGravityDisabled;
 
 	private Timer _startDelayTimer;
 
+
+	private float shootHoldTime = 0f;
+	private bool isShooting = false;
+	private Vector2 aimingDirection = Vector2.Right;
+	[Export] private float AimingAngleLimit = 30f;
+	[Export] private float BurstHoldTime = 0.5f;
+
 	public override void _Ready()
 	{
 		PlayerSprite = GetNode<Node2D>("PlayerSprite");
+		RightHandSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Right_hand");
 		CoyoteJumpTimer = GetNode<Timer>("CoyoteJumpTimer");
 		BodyMinusRightHandAnimation = GetNode<AnimationPlayer>("BodyMinusRightHandAnimation");
 		RightHandAnimation = GetNode<AnimationPlayer>("RightHandAnimation");
-		//_handRight = GetNode<Marker2D>("PlayerSprite/Body/Front_Arm/HandRight");
-		//_handLeft = GetNode<Marker2D>("PlayerSprite/Body/Front_Arm/HandLeft");
 		LegsSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Legs");
+		PStateMachine = GetNode<PlayerStateMachine>("PlayerStateMachine");
 		_startDelayTimer = new Timer
 		{
 			OneShot = true,
@@ -52,9 +62,9 @@ public partial class Player : CharacterBody2D
 	{
 		InputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 		AddGravity(delta);
-		//HandleAim();
 		AlignCharToSlope();
 		HandleGhosting(delta);
+		HandleShooting(delta);
 	}
 
 	private void HandleGhosting(double delta)
@@ -70,26 +80,62 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	/*private void HandleAim()
+	private void HandleShooting(double delta)
 	{
-		var globalMousePosition = GetGlobalMousePosition();
-		var direction = (globalMousePosition - _handRight.GlobalPosition).Normalized();
-		var shouldFlip = direction.X < 0;
-		_frontArmSprite.LookAt(GetGlobalMousePosition());
-		var currentHand = shouldFlip ? _handLeft : _handRight;
-		_frontArmSprite.FlipV = shouldFlip;
-		_bodySprite.FlipH = shouldFlip;
-		_headSprite.FlipH = shouldFlip;
-	
-		if(Input.IsActionJustPressed("shoot")){
-			var bullet = GD.Load<PackedScene>("res://Player/weapons/bullet/Bullet.tscn").Instantiate<Bullet>();
-			GetParent().AddChild(bullet);
-			bullet.GlobalPosition = currentHand.GlobalPosition;
-			bullet.Direction = direction;
+		if (Input.IsActionPressed("shoot"))
+		{
+			PlayGroundShootAnimation();
+			shootHoldTime += (float)delta;
+			isShooting = true;
+			HandleAiming();
 		}
+		else if (isShooting)
+		{
+			if (shootHoldTime >= BurstHoldTime)
+			{
+				BurstShot();
+			}
 
+			// Rinit
+			shootHoldTime = 0f;
+			isShooting = false;
+			RightHandSprite.Rotation = 0;
+			aimingDirection = Vector2.Right;
+			RightHandAnimation.Play(PStateMachine.CurrentStateName.Replace("State", String.Empty));
+		}
 	}
-	*/
+
+	private void HandleAiming()
+	{
+
+		float verticalInput = Input.GetActionStrength("aim_down") - Input.GetActionStrength("aim_up");
+		if (Mathf.Abs(verticalInput) > 0.1f) // Stick input detected
+		{
+			float targetAngle = verticalInput * AimingAngleLimit; // Convert to angle between -40 to 40 degrees
+			aimingDirection = new Vector2(1, Mathf.Tan(Mathf.DegToRad(targetAngle))).Normalized();
+		}
+		else if (Input.IsMouseButtonPressed(MouseButton.Left)) // Mouse input
+		{
+			// Get mouse Y-position relative to the screen
+			float mouseY = GetViewport().GetMousePosition().Y;
+			float screenHeight = GetViewportRect().Size.Y;
+
+			// Map mouse Y-position to an angle between -40 and 40 degrees
+			float normalizedMouseY = (mouseY / screenHeight) * 2 - 1; // Normalize between -1 and 1
+			float targetAngle = Mathf.Clamp(normalizedMouseY * AimingAngleLimit, -AimingAngleLimit, AimingAngleLimit);
+
+			aimingDirection = new Vector2(1, Mathf.Tan(Mathf.DegToRad(targetAngle))).Normalized();
+		}
+		RightHandSprite.Rotation = aimingDirection.Angle();
+	}
+
+	private void BurstShot() // TODO: use Marker2d to make the bullet spawn in front of the player's hand
+	{
+		var bullet = GD.Load<PackedScene>("res://Player/weapons/bullet/Bullet.tscn").Instantiate<Bullet>();
+		bullet.GlobalPosition = RightHandSprite.GlobalPosition;
+		bullet.Direction = aimingDirection with { X = Direction.X * aimingDirection.X };
+		GetParent().AddChild(bullet);
+	}
 
 	private void AddGravity(double delta)
 	{
@@ -146,8 +192,8 @@ public partial class Player : CharacterBody2D
 
 	public void PlayRunAnimation()
 	{
-		BodyMinusRightHandAnimation.Play("RunForward");
-		RightHandAnimation.Play("RunForward");
+		BodyMinusRightHandAnimation.Play("Run");
+		RightHandAnimation.Play("Run");
 	}
 
 	public void PlayDashAnimation()

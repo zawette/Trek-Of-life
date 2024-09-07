@@ -38,17 +38,12 @@ public partial class IdleState : BasePlayerState
 			EmitSwitchState("FallState");
 		}
 
-		HandleShooting();
-		
 		PlayerV.MoveAndSlide();
 	}
 
 
-	private void HandleShooting()
-	{
-		if (Input.IsActionJustPressed("shoot"))
-		{
-			PlayerV.PlayGroundShootAnimation();
-		}
-	}
+
+
+
+
 }

@@ -42,7 +42,6 @@ public partial class RunState : BasePlayerState
 			EmitSwitchState("FallState");
 		}
 
-		HandleShooting();
 
 		HandleXMovements(delta);
 		ApplyFriction(delta);
@@ -78,11 +77,4 @@ public partial class RunState : BasePlayerState
 		}
 	}
 
-	private void HandleShooting()
-	{
-		if (Input.IsActionJustPressed("shoot"))
-		{
-			PlayerV.PlayGroundShootAnimation();
-		}
-	}
 }
