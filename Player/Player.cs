@@ -11,6 +11,8 @@ public partial class Player : CharacterBody2D
 	[Export] public float StartDelayTime = 7.0f;
 	[Export] private bool _canDash = true;
 	public bool CanDash { get => _canDash; }
+	private float ghostTimer = 0f;
+	private bool isGhosting = false;
 	public bool IsMovementDelayed = true; // Flag to delay movement
 
 	public Vector2 InputDir = Vector2.Zero;
@@ -47,14 +49,28 @@ public partial class Player : CharacterBody2D
 	}
 
 	public override void _PhysicsProcess(double delta)
-	{
-		InputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-		AddGravity(delta);
-		//HandleAim();
-		AlignCharToSlope();
-	}
+    {
+        InputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+        AddGravity(delta);
+        //HandleAim();
+        AlignCharToSlope();
+        HandleGhosting(delta);
+    }
 
-	/*private void HandleAim()
+    private void HandleGhosting(double delta)
+    {
+        if (isGhosting)
+        {
+            ghostTimer += (float)delta;
+            if (ghostTimer >= MovementData.GhostSpawnInterval)
+            {
+                SpawnGhost();
+                ghostTimer = 0f;
+            }
+        }
+    }
+
+    /*private void HandleAim()
 	{
 		var globalMousePosition = GetGlobalMousePosition();
 		var direction = (globalMousePosition - _handRight.GlobalPosition).Normalized();
@@ -75,7 +91,7 @@ public partial class Player : CharacterBody2D
 	}
 	*/
 
-	private void AddGravity(double delta)
+    private void AddGravity(double delta)
 	{
 		if (!IsOnFloor() && !_isGravityDisabled)
 			Velocity = Velocity with { Y = Velocity.Y + Gravity * MovementData.GravityScale * (float)delta };
@@ -145,5 +161,37 @@ public partial class Player : CharacterBody2D
 	{
 		Direction = direction;
 		PlayerSprite.Scale = PlayerSprite.Scale with { X = Math.Abs(PlayerSprite.Scale.X) * direction.X };
+	}
+
+
+	public void StartGhosting(double duration)
+	{
+		isGhosting = true;
+		ghostTimer = 0f;
+
+		//SpawnGhost();
+		GetTree()
+			.CreateTimer(duration)
+			.Connect("timeout", Callable.From(() => StopGhosting()));
+	}
+
+	private void StopGhosting()
+	{
+		isGhosting = false;
+	}
+
+	private void SpawnGhost()
+	{
+		var ghost = (Node2D)PlayerSprite.Duplicate();
+		ghost.GlobalPosition = PlayerSprite.GlobalPosition;
+		ghost.Scale = PlayerSprite.Scale;
+		ghost.Modulate = new Color(1, 1, 1, 0.5f);
+
+		GetParent().AddChild(ghost);
+
+		var tween = ghost.CreateTween();
+		tween.TweenProperty(ghost, "modulate:a", 0f, 0.5f);
+		tween.TweenCallback(Callable.From(() => ghost.QueueFree()));
+		tween.Play();
 	}
 }

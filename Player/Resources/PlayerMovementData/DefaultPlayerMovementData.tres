@@ -17,4 +17,6 @@ WallJumpYPower = -50.0
 WallJumpXPower = 50.0
 DashPower = 75.0
 DashDuration = 0.2
+GhostSpawnInterval = 0.07
+GhostingDurationMultiplier = 2.0
 DashDelay = 0.4

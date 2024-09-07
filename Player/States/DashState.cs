@@ -10,8 +10,6 @@ public partial class DashState : BasePlayerState
 
 	private SceneTreeTimer dashTimer;
 	private Vector2 initialVelocity;
-	private float ghostTimer = 0f;
-	[Export] public float ghostSpawnInterval = 0.07f;
 
 	public override void OnEnter(Dictionary<string, Variant> message = null)
 	{
@@ -20,6 +18,7 @@ public partial class DashState : BasePlayerState
 		PlayerV.PlayDashAnimation();
 		initialVelocity = PlayerV.Velocity;
 		PlayerV.Velocity = new() { X = PlayerV.MovementData.DashPower * PlayerV.Direction.X, Y = 0 };
+		PlayerV.StartGhosting(PlayerV.MovementData.DashDuration * PlayerV.MovementData.GhostingDurationMultiplier);
 		dashTimer = GetTree().CreateTimer(PlayerV.MovementData.DashDuration);
 	}
 
@@ -39,13 +38,6 @@ public partial class DashState : BasePlayerState
 			else EmitSwitchState("FallState");
 		}
 
-		ghostTimer += (float)delta;
-		if (ghostTimer >= ghostSpawnInterval)
-		{
-			SpawnGhost();
-			ghostTimer = 0f;
-		}
-
 		PlayerV.MoveAndSlide();
 	}
 
@@ -59,25 +51,5 @@ public partial class DashState : BasePlayerState
 		.Connect("timeout", Callable.From(() => PlayerV.EnableDash()));
 
 	}
-
-
-	private void SpawnGhost()
-	{
-		var ghost = (Node2D)PlayerV.PlayerSprite.Duplicate();
-
-		ghost.GlobalPosition = PlayerV.PlayerSprite.GlobalPosition;
-		ghost.Scale = PlayerV.PlayerSprite.Scale;
-		ghost.Modulate = new Color(1, 1, 1, 0.5f);
-
-		PlayerV.GetParent().AddChild(ghost);
-
-		var tween = ghost.CreateTween();
-		tween.TweenProperty(ghost, "modulate:a", 0f, 0.5f);
-
-		tween.TweenCallback(Callable.From(() => ghost.QueueFree()));
-		tween.Play();
-	}
-
-
 
 }
