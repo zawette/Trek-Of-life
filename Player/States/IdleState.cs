@@ -16,15 +16,16 @@ public partial class IdleState : BasePlayerState
 	public override void OnPhysicsUpdate(double delta)
 	{
 		base.OnPhysicsUpdate(delta);
-		
-		if(PlayerV.IsMovementDelayed) return;
+
+		if (PlayerV.IsMovementDelayed) return;
 
 		if (PlayerV.InputDir.X != 0 || PlayerV.IsAutoRunning)
 		{
 			EmitSwitchState("RunState");
 		}
 
-		if(PlayerV.CanDash && Input.IsActionJustPressed("dash")){
+		if (PlayerV.CanDash && Input.IsActionJustPressed("dash"))
+		{
 			EmitSwitchState("DashState");
 		}
 
@@ -36,6 +37,18 @@ public partial class IdleState : BasePlayerState
 		{
 			EmitSwitchState("FallState");
 		}
+
+		HandleShooting();
+		
 		PlayerV.MoveAndSlide();
+	}
+
+
+	private void HandleShooting()
+	{
+		if (Input.IsActionJustPressed("shoot"))
+		{
+			PlayerV.PlayGroundShootAnimation();
+		}
 	}
 }

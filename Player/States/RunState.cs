@@ -18,7 +18,7 @@ public partial class RunState : BasePlayerState
 
 		if (PlayerV.InputDir.X != 0)
 		{
-			PlayerV.FlipSprite(PlayerV.InputDir);	
+			PlayerV.FlipSprite(PlayerV.InputDir);
 		}
 
 
@@ -41,6 +41,8 @@ public partial class RunState : BasePlayerState
 		{
 			EmitSwitchState("FallState");
 		}
+
+		HandleShooting();
 
 		HandleXMovements(delta);
 		ApplyFriction(delta);
@@ -73,6 +75,14 @@ public partial class RunState : BasePlayerState
 		if (PlayerV.InputDir.X == 0 && PlayerV.IsOnFloor())
 		{
 			PlayerV.Velocity = PlayerV.Velocity with { X = (float)Mathf.MoveToward(PlayerV.Velocity.X, 0, PlayerV.MovementData.Friction * delta) };
+		}
+	}
+
+	private void HandleShooting()
+	{
+		if (Input.IsActionJustPressed("shoot"))
+		{
+			PlayerV.PlayGroundShootAnimation();
 		}
 	}
 }

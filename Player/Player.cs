@@ -49,28 +49,28 @@ public partial class Player : CharacterBody2D
 	}
 
 	public override void _PhysicsProcess(double delta)
-    {
-        InputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-        AddGravity(delta);
-        //HandleAim();
-        AlignCharToSlope();
-        HandleGhosting(delta);
-    }
+	{
+		InputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+		AddGravity(delta);
+		//HandleAim();
+		AlignCharToSlope();
+		HandleGhosting(delta);
+	}
 
-    private void HandleGhosting(double delta)
-    {
-        if (isGhosting)
-        {
-            ghostTimer += (float)delta;
-            if (ghostTimer >= MovementData.GhostSpawnInterval)
-            {
-                SpawnGhost();
-                ghostTimer = 0f;
-            }
-        }
-    }
+	private void HandleGhosting(double delta)
+	{
+		if (isGhosting)
+		{
+			ghostTimer += (float)delta;
+			if (ghostTimer >= MovementData.GhostSpawnInterval)
+			{
+				SpawnGhost();
+				ghostTimer = 0f;
+			}
+		}
+	}
 
-    /*private void HandleAim()
+	/*private void HandleAim()
 	{
 		var globalMousePosition = GetGlobalMousePosition();
 		var direction = (globalMousePosition - _handRight.GlobalPosition).Normalized();
@@ -91,7 +91,7 @@ public partial class Player : CharacterBody2D
 	}
 	*/
 
-    private void AddGravity(double delta)
+	private void AddGravity(double delta)
 	{
 		if (!IsOnFloor() && !_isGravityDisabled)
 			Velocity = Velocity with { Y = Velocity.Y + Gravity * MovementData.GravityScale * (float)delta };
@@ -156,6 +156,15 @@ public partial class Player : CharacterBody2D
 		RightHandAnimation.Play("Dash");
 	}
 
+	public void PlayGroundShootAnimation()
+	{
+		RightHandAnimation.Play("Ground_shoot");
+	}
+
+	public void PlayAirShootAnimation()
+	{
+		RightHandAnimation.Play("Air_shoot");
+	}
 
 	public void FlipSprite(Vector2 direction)
 	{
@@ -169,7 +178,6 @@ public partial class Player : CharacterBody2D
 		isGhosting = true;
 		ghostTimer = 0f;
 
-		//SpawnGhost();
 		GetTree()
 			.CreateTimer(duration)
 			.Connect("timeout", Callable.From(() => StopGhosting()));
@@ -182,7 +190,7 @@ public partial class Player : CharacterBody2D
 
 	private void SpawnGhost()
 	{
-		var ghost = (Node2D)PlayerSprite.Duplicate();
+		var ghost = (Node2D)PlayerSprite.Duplicate((int)DuplicateFlags.UseInstantiation);
 		ghost.GlobalPosition = PlayerSprite.GlobalPosition;
 		ghost.Scale = PlayerSprite.Scale;
 		ghost.Modulate = new Color(1, 1, 1, 0.5f);

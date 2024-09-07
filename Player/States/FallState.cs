@@ -17,7 +17,8 @@ public partial class FallState : BasePlayerState
 	{
 		base.OnPhysicsUpdate(delta);
 
-		if(PlayerV.CanDash && Input.IsActionJustPressed("dash")){
+		if (PlayerV.CanDash && Input.IsActionJustPressed("dash"))
+		{
 			EmitSwitchState("DashState");
 		}
 
@@ -30,6 +31,9 @@ public partial class FallState : BasePlayerState
 		HandleXAirMovements(delta);
 		ApplyAirResistance(delta);
 		HandleWallJump();
+
+		HandleShooting();
+
 		PlayerV.MoveAndSlide();
 	}
 
@@ -59,6 +63,15 @@ public partial class FallState : BasePlayerState
 			{
 				EmitSwitchState("WallHangState");
 			}
+		}
+	}
+
+
+	private void HandleShooting()
+	{
+		if (Input.IsActionJustPressed("shoot"))
+		{
+			PlayerV.PlayAirShootAnimation();
 		}
 	}
 
