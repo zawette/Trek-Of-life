@@ -18,19 +18,18 @@ public partial class RunState : BasePlayerState
 
 		if (PlayerV.InputDir.X != 0)
 		{
-			PlayerV.Direction = PlayerV.InputDir;
+			PlayerV.FlipSprite(PlayerV.InputDir);	
 		}
 
-		PlayerV.PlayerSprite.Scale = PlayerV.PlayerSprite.Scale with { X = Math.Abs(PlayerV.PlayerSprite.Scale.X) * PlayerV.Direction.X};		
 
-		
 
 		if (PlayerV.Velocity.X == 0)
 		{
 			EmitSwitchState("IdleState");
 		}
 
-		if(PlayerV.CanDash && Input.IsActionJustPressed("dash")){
+		if (PlayerV.CanDash && Input.IsActionJustPressed("dash"))
+		{
 			EmitSwitchState("DashState");
 		}
 

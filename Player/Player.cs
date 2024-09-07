@@ -19,9 +19,9 @@ public partial class Player : CharacterBody2D
 	public float Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 	public AnimationPlayer BodyMinusRightHandAnimation;
 
-    public AnimationPlayer RightHandAnimation;
+	public AnimationPlayer RightHandAnimation;
 
-    public AnimatedSprite2D LegsSprite;
+	public AnimatedSprite2D LegsSprite;
 	public Node2D PlayerSprite;
 	private bool _isGravityDisabled;
 
@@ -101,36 +101,49 @@ public partial class Player : CharacterBody2D
 	public void EnableGravity() => _isGravityDisabled = false;
 	public void DisableDash() => _canDash = false;
 	public void EnableDash() => _canDash = true;
-	
 
 
-	public void PlayIdleAnimation(){
+
+	public void PlayIdleAnimation()
+	{
 		BodyMinusRightHandAnimation.Play("Idle");
 		RightHandAnimation.Play("Idle");
 	}
 
-	public void PlayJumpAnimation(){
+	public void PlayJumpAnimation()
+	{
 		BodyMinusRightHandAnimation.Play("Jump");
 		RightHandAnimation.Play("Jump");
 	}
 
-	public void PlayFallAnimation(){
+	public void PlayFallAnimation()
+	{
 		BodyMinusRightHandAnimation.Play("Fall");
 		RightHandAnimation.Play("Fall");
 	}
 
-	public void PlayWallHangAnimation(){
+	public void PlayWallHangAnimation()
+	{
 		BodyMinusRightHandAnimation.Play("WallHang");
 		RightHandAnimation.Play("WallHang");
 	}
 
-	public void PlayRunAnimation(){
+	public void PlayRunAnimation()
+	{
 		BodyMinusRightHandAnimation.Play("RunForward");
 		RightHandAnimation.Play("RunForward");
 	}
 
-	public void PlayDashAnimation(){
+	public void PlayDashAnimation()
+	{
 		BodyMinusRightHandAnimation.Play("Dash");
 		RightHandAnimation.Play("Dash");
+	}
+
+
+	public void FlipSprite(Vector2 direction)
+	{
+		Direction = direction;
+		PlayerSprite.Scale = PlayerSprite.Scale with { X = Math.Abs(PlayerSprite.Scale.X) * direction.X };
 	}
 }
