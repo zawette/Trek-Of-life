@@ -1716,6 +1716,10 @@ animation = &"Dash"
 sprite_frames = SubResource("SpriteFrames_857k3")
 animation = &"Idle"
 
+[node name="Shooting_hand_marker" type="Marker2D" parent="PlayerSprite/Right_hand"]
+position = Vector2(35, -0.999996)
+scale = Vector2(1, 1)
+
 [node name="Left_hand" type="AnimatedSprite2D" parent="PlayerSprite"]
 sprite_frames = SubResource("SpriteFrames_hm2wx")
 animation = &"Dash"

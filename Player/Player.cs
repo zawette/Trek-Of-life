@@ -25,6 +25,9 @@ public partial class Player : CharacterBody2D
 	public AnimationPlayer RightHandAnimation;
 
 	public AnimatedSprite2D LegsSprite;
+
+	public Marker2D ShootingHandMarker;
+
 	public PlayerStateMachine PStateMachine;
 	public Node2D PlayerSprite;
 	public AnimatedSprite2D RightHandSprite;
@@ -32,12 +35,12 @@ public partial class Player : CharacterBody2D
 
 	private Timer _startDelayTimer;
 
-
 	private float shootHoldTime = 0f;
 	private bool isShooting = false;
 	private Vector2 aimingDirection = Vector2.Right;
 	[Export] private float AimingAngleLimit = 30f;
 	[Export] private float BurstHoldTime = 0.5f;
+	private GpuParticles2D flare;
 
 	public override void _Ready()
 	{
@@ -47,6 +50,7 @@ public partial class Player : CharacterBody2D
 		BodyMinusRightHandAnimation = GetNode<AnimationPlayer>("BodyMinusRightHandAnimation");
 		RightHandAnimation = GetNode<AnimationPlayer>("RightHandAnimation");
 		LegsSprite = GetNode<AnimatedSprite2D>("PlayerSprite/Legs");
+		ShootingHandMarker = GetNode<Marker2D>("PlayerSprite/Right_hand/Shooting_hand_marker");
 		PStateMachine = GetNode<PlayerStateMachine>("PlayerStateMachine");
 		_startDelayTimer = new Timer
 		{
@@ -88,6 +92,13 @@ public partial class Player : CharacterBody2D
 			shootHoldTime += (float)delta;
 			isShooting = true;
 			HandleAiming();
+
+			if (shootHoldTime >= BurstHoldTime && flare is null)
+			{
+				flare = GD.Load<PackedScene>("res://Shared/Particles/Flare.tscn").Instantiate<GpuParticles2D>();
+				ShootingHandMarker.AddChild(flare);
+			}
+
 		}
 		else if (isShooting)
 		{
@@ -102,6 +113,12 @@ public partial class Player : CharacterBody2D
 			RightHandSprite.Rotation = 0;
 			aimingDirection = Vector2.Right;
 			RightHandAnimation.Play(PStateMachine.CurrentStateName.Replace("State", String.Empty));
+
+			if (flare is not null)
+			{
+				flare.QueueFree();
+				flare = null;
+			}
 		}
 	}
 
@@ -132,7 +149,7 @@ public partial class Player : CharacterBody2D
 	private void BurstShot() // TODO: use Marker2d to make the bullet spawn in front of the player's hand
 	{
 		var bullet = GD.Load<PackedScene>("res://Player/weapons/bullet/Bullet.tscn").Instantiate<Bullet>();
-		bullet.GlobalPosition = RightHandSprite.GlobalPosition;
+		bullet.GlobalPosition = ShootingHandMarker.GlobalPosition;
 		bullet.Direction = aimingDirection with { X = Direction.X * aimingDirection.X };
 		bullet.Rotation = RightHandSprite.Rotation * Direction.X;
 		GetParent().AddChild(bullet);

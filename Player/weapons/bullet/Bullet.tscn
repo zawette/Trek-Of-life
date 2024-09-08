@@ -1,9 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://dmbjprydyiaig"]
+[gd_scene load_steps=9 format=3 uid="uid://dmbjprydyiaig"]
 
 [ext_resource type="Script" path="res://Player/weapons/bullet/Bullet.cs" id="1_buin5"]
 [ext_resource type="Shader" uid="uid://by5yi5pk247uk" path="res://Shared/Shaders/Lightning_shader.tres" id="3_hxrag"]
 [ext_resource type="Texture2D" uid="uid://d0y4x7opp4san" path="res://Shared/Sprites/glow.png" id="4_0curo"]
 [ext_resource type="Texture2D" uid="uid://5upewydrj246" path="res://Shared/Sprites/Lightning.png" id="4_h32n3"]
+[ext_resource type="PackedScene" uid="uid://du2kjpohtbej2" path="res://Shared/Particles/Sparks.tscn" id="4_waswu"]
+[ext_resource type="PackedScene" uid="uid://sa3iq2pwceo4" path="res://Shared/Particles/Flare.tscn" id="5_s4yaf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1t6il"]
 size = Vector2(4.44444, 2)
@@ -13,66 +15,6 @@ shader = ExtResource("3_hxrag")
 shader_parameter/Visibility = 0.0
 shader_parameter/Speed = Vector2(-1.5, 0)
 shader_parameter/basic_texture = ExtResource("4_h32n3")
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_iyls0"]
-blend_mode = 1
-light_mode = 1
-
-[sub_resource type="Curve" id="Curve_u37f7"]
-_data = [Vector2(0.00636943, 0.505494), 0.0, 0.0, 0, 0, Vector2(1, 0.021978), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_o2hxa"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_8to3i"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_tjy1n"]
-curve_x = SubResource("Curve_u37f7")
-curve_y = SubResource("Curve_o2hxa")
-curve_z = SubResource("Curve_8to3i")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_n4ycx"]
-particle_flag_align_y = true
-particle_flag_disable_z = true
-emission_shape_offset = Vector3(-1, 0, 0)
-emission_shape = 6
-emission_ring_axis = Vector3(0, 0, 1)
-emission_ring_height = 1.0
-emission_ring_radius = 1.0
-emission_ring_inner_radius = 0.0
-direction = Vector3(0, 1, 0)
-initial_velocity_min = -10.0
-initial_velocity_max = 10.0
-radial_velocity_min = 4.99998
-radial_velocity_max = 9.99998
-gravity = Vector3(0, 98, 0)
-scale_min = 0.01
-scale_max = 0.02
-scale_curve = SubResource("CurveXYZTexture_tjy1n")
-color = Color(0.988235, 0.937255, 0.552941, 1)
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mwvb1"]
-blend_mode = 1
-light_mode = 1
-
-[sub_resource type="Curve" id="Curve_glanq"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.171975, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_5nnir"]
-curve = SubResource("Curve_glanq")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_acx6o"]
-particle_flag_disable_z = true
-gravity = Vector3(0, 0, 0)
-scale_min = 0.01
-scale_max = 0.03
-scale_curve = SubResource("CurveTexture_5nnir")
-color = Color(0.988235, 0.937255, 0.552941, 1)
 
 [node name="bullet" type="Node2D"]
 script = ExtResource("1_buin5")
@@ -100,25 +42,12 @@ width = 2.0
 default_color = Color(0.988235, 0.937255, 0.552941, 1)
 texture_mode = 2
 
-[node name="Sparks" type="GPUParticles2D" parent="."]
-material = SubResource("CanvasItemMaterial_iyls0")
-position = Vector2(-1, 0)
-amount = 15
-process_material = SubResource("ParticleProcessMaterial_n4ycx")
-texture = ExtResource("4_0curo")
-lifetime = 0.15
-fixed_fps = 60
+[node name="Sparks" parent="." instance=ExtResource("4_waswu")]
 
-[node name="Flare" type="GPUParticles2D" parent="."]
-material = SubResource("CanvasItemMaterial_mwvb1")
-position = Vector2(3, 0)
-amount = 1
-process_material = SubResource("ParticleProcessMaterial_acx6o")
-texture = ExtResource("4_0curo")
-lifetime = 0.15
-fixed_fps = 60
+[node name="Flare" parent="." instance=ExtResource("5_s4yaf")]
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
 position = Vector2(1, 0)
 scale = Vector2(2.5, 0.9)
 color = Color(0.988235, 0.937255, 0.298039, 1)
