@@ -134,6 +134,7 @@ public partial class Player : CharacterBody2D
 		var bullet = GD.Load<PackedScene>("res://Player/weapons/bullet/Bullet.tscn").Instantiate<Bullet>();
 		bullet.GlobalPosition = RightHandSprite.GlobalPosition;
 		bullet.Direction = aimingDirection with { X = Direction.X * aimingDirection.X };
+		bullet.Rotation = RightHandSprite.Rotation * Direction.X;
 		GetParent().AddChild(bullet);
 	}
 

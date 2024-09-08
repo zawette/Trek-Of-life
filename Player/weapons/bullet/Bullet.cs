@@ -10,7 +10,6 @@ public partial class Bullet : Node2D
 
     [Export] public float Speed = 20f;
     public Vector2 Direction { get; set; }
-
     public override void _Ready()
     {
         _visibleOnScreenEnabler2D = GetNode<VisibleOnScreenNotifier2D>("VisibleOnScreenNotifier2D");
@@ -28,7 +27,7 @@ public partial class Bullet : Node2D
 
     private void OnAreaEntered(Area2D area)
     {
-         area.GetParent().QueueFree();
+        area.GetParent().QueueFree();
     }
 
 
@@ -40,6 +39,7 @@ public partial class Bullet : Node2D
     public override void _PhysicsProcess(double delta)
     {
         Position += Direction * Speed * (float)delta;
+
         GD.Print("bullet position ", Position);
     }
 }

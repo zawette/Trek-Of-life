@@ -108,10 +108,10 @@ position = Vector2(144, -1)
 [node name="P2" type="Marker2D" parent="Enemies/Tfa7a2/PatrolPoints"]
 position = Vector2(202, -1)
 
-[node name="Door_activator" parent="Enemies" instance=ExtResource("3_h4qno")]
-position = Vector2(411, -4)
-scale = Vector2(0.5, 0.5)
-
 [node name="Player" parent="." instance=ExtResource("3_canf4")]
 position = Vector2(-24, 17)
 StartDelayTime = 0.1
+
+[node name="Door_activator" parent="." instance=ExtResource("3_h4qno")]
+position = Vector2(411, -4)
+scale = Vector2(0.5, 0.5)
