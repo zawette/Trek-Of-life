@@ -81,7 +81,7 @@ layer_0/tile_data = PackedInt32Array(65533, 0, 0, 65534, 65536, 0, 65535, 0, 0, 
 [node name="Enemies" type="Node" parent="."]
 
 [node name="Tfa7a" parent="Enemies" node_paths=PackedStringArray("PatrolPointsNode") instance=ExtResource("3_g8hrl")]
-position = Vector2(101, 12)
+position = Vector2(80, 5)
 Speed = 400.0
 StateWaitTime = 5
 PatrolPointsNode = NodePath("PatrolPoints")
@@ -89,13 +89,13 @@ PatrolPointsNode = NodePath("PatrolPoints")
 [node name="PatrolPoints" type="Node" parent="Enemies/Tfa7a"]
 
 [node name="P1" type="Marker2D" parent="Enemies/Tfa7a/PatrolPoints"]
-position = Vector2(124, 9)
+position = Vector2(97, 6)
 
 [node name="P2" type="Marker2D" parent="Enemies/Tfa7a/PatrolPoints"]
-position = Vector2(62, 9)
+position = Vector2(40, 5)
 
 [node name="Tfa7a2" parent="Enemies" node_paths=PackedStringArray("PatrolPointsNode") instance=ExtResource("3_g8hrl")]
-position = Vector2(188, 7)
+position = Vector2(188, -1)
 Speed = 400.0
 StateWaitTime = 3
 PatrolPointsNode = NodePath("PatrolPoints")
@@ -103,10 +103,10 @@ PatrolPointsNode = NodePath("PatrolPoints")
 [node name="PatrolPoints" type="Node" parent="Enemies/Tfa7a2"]
 
 [node name="P1" type="Marker2D" parent="Enemies/Tfa7a2/PatrolPoints"]
-position = Vector2(146, 0)
+position = Vector2(144, -1)
 
 [node name="P2" type="Marker2D" parent="Enemies/Tfa7a2/PatrolPoints"]
-position = Vector2(214, 1)
+position = Vector2(202, -1)
 
 [node name="Door_activator" parent="Enemies" instance=ExtResource("3_h4qno")]
 position = Vector2(411, -4)
