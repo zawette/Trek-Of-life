@@ -18,7 +18,7 @@ public partial class RunState : BasePlayerState
 
 		if (PlayerV.InputDir.X != 0)
 		{
-			PlayerV.FlipSprite(PlayerV.InputDir);
+			PlayerV.FlipSprite(new Vector2 { X = Mathf.Sign(PlayerV.InputDir.X), Y = 0 });
 		}
 
 
